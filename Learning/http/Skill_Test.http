@@ -1,0 +1,56 @@
+@url = http://localhost:8080/api/skill
+
+GET {{url}} HTTP/1.1
+###
+GET {{url}}/id/1 HTTP/1.1
+###
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "acrobatics":2,
+    "animalHandling":2,
+    "arcana":2,
+    "athletics":2,
+    "deception":2,
+    "hist":2,
+    "insight":2,
+    "intimidation":2,
+    "investigation":2,
+    "medicine":2,
+    "nature":2,
+    "perception":2,
+    "performance":2,
+    "persuasion":2,
+    "religion":2,
+    "sleightOfHand":2,
+    "stealth":2,
+    "survival":2,
+    "asID":1
+}
+###
+PUT {{url}}/update/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "skillID": 1,
+    "acrobatics":2,
+    "animalHandling":2,
+    "arcana":2,
+    "athletics":2,
+    "deception":2,
+    "hist":2,
+    "insight":2,
+    "intimidation":2,
+    "investigation":2,
+    "medicine":2,
+    "nature":2,
+    "perception":2,
+    "performance":2,
+    "persuasion":2,
+    "religion":2,
+    "sleightOfHand":2,
+    "stealth":2,
+    "survival":2,
+    "asID":1
+}

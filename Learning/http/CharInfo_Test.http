@@ -1,0 +1,31 @@
+@url = http://localhost:8080/charinfo
+
+GET {{url}} HTTP/1.1
+###
+GET {{url}}/test HTTP/1.1
+###
+POST {{url}}
+Content-Type: application/json
+
+{
+  "userID": "tests",
+  "classType": "test",
+  "level": 1,
+  "race": "test",
+  "background": "test",
+  "exp": 1
+}
+###
+PUT {{url}}/update/tests HTTP/1.1
+Content-Type: application/json
+
+{
+  "userID": "asdf",
+  "classType": "tests",
+  "level": 1,
+  "race": "test",
+  "background": "test",
+  "exp": 1
+}
+###
+DELETE  {{url}}/delete/tests HTTP/1.1
