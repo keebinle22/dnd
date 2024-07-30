@@ -1,9 +1,13 @@
-# DND App v.1.0.0
+# DND App v.1.1.0
 Created by Kevin Le
 ## About
 Dungeon and Dragon (DND) is a role playing/choose your adventure game where players go on grand adventures through a fantasy world. The main narrator is called the 'Dungeon Master' (DM) and is responsible for defining the rules of the game and the world, guiding the adventures throughout the mystical land, and most importantly, creating a story that will hook players for hours on end. The players will each have their own characters with different background, abilities, and skills. All of these informations have been recorded on sheets of papers. This is will this app comes into play. The application will digitally track each character sheets and allow each player to view and update their sheet throughout the game. Additionally, the DM will be able to view all player's character sheets in parallel when creating the next adventure.
 
 ## Change Logs
+### 7/29/24
+- Added edit feature for Ability Scores.
+    - After editing AS, calculation for skills will be made in the backend and updated in UI.
+- Experimented with popups as they will be used for editing.
 ### 7/27/24
 - First git commit.
 - Added a home, view, and char sheet page.

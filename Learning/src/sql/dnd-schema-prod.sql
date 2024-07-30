@@ -88,3 +88,6 @@ insert into skills (acrobatics, animalHandling, arcana, athletics, deception, hi
 (1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 insert into battle_stat (bsID, initiative, armor, defense, inspiration, profBonus, asSaveDC, speed, userID) value (1,1,1,null,1,1,1,1,'test');
 insert into health (healthID, maxHP, curHP, tempHP, totalHitDice, curHitDice, successDeathSaves, failDeathSaves, userID) value (1,1,1,1,1,1,1,1,'test');
+
+select * from skills;
+delete from skills where skillID = 2;

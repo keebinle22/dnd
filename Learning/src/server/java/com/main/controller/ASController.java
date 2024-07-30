@@ -2,7 +2,9 @@ package com.main.controller;
 
 import com.main.domain.AbilityScoreService;
 import com.main.domain.Result;
+import com.main.domain.SkillService;
 import com.main.model.AbilityScores;
+import com.main.model.Skills;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,22 +14,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/abilityscore")
 @CrossOrigin(origins = "http://localhost:3000")
-//@Profile("test")
-public class Controller {
+public class ASController {
 
-    private final AbilityScoreService service;
+    private final AbilityScoreService scoreService;
+    private final SkillService skillService;
 
-    public Controller(AbilityScoreService service) {
-        this.service = service;
+    public ASController(AbilityScoreService scoreService, SkillService skillService) {
+        this.scoreService = scoreService;
+        this.skillService = skillService;
     }
     @GetMapping("/user")
     public ResponseEntity<List<AbilityScores>> findAllAS(){
-        List<AbilityScores> all = service.getAllAS();
+        List<AbilityScores> all = scoreService.getAllAS();
         return ResponseEntity.ok(all);
     }
     @GetMapping("/user/{userID}")
     public ResponseEntity<AbilityScores> findASByUser(@PathVariable String userID){
-        AbilityScores as = service.getAS(userID);
+        AbilityScores as = scoreService.getAS(userID);
         if (as == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -35,7 +38,7 @@ public class Controller {
     }
     @PostMapping
     public ResponseEntity<Object> addAS(@RequestBody AbilityScores as){
-        Result<AbilityScores> result = service.add(as);
+        Result<AbilityScores> result = scoreService.add(as);
         if (result.isSuccess()){
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
@@ -46,9 +49,12 @@ public class Controller {
         if (!userID.equalsIgnoreCase(as.getUserID())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        Result<AbilityScores> result = service.update(as);
+        Result<AbilityScores> result = scoreService.update(as);
         if (result.isSuccess()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            Result<Skills> result2 = skillService.update(as);
+            if (result2.isSuccess()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         }
         return ErrorResponse.build(result);
     }

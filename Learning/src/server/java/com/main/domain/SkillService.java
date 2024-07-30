@@ -1,6 +1,7 @@
 package com.main.domain;
 
 import com.main.data.SkillRepository;
+import com.main.model.AbilityScores;
 import com.main.model.Skills;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,34 @@ public class SkillService {
         }
         if (!skillRepo.updateSkill(updatedSkill)){
             String msg = String.format("Id: %s not found", updatedSkill.getSkillID());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+        return result;
+    }
+
+    public Result<Skills> update (AbilityScores as){
+        Result<Skills> result = new Result<>();
+        Skills skills = getSkills(as.getAsID());
+        skills.setAcrobatics(modifier(as.getDexterity()));
+        skills.setAnimalHandling(modifier(as.getWisdom()));
+        skills.setArcana(modifier(as.getIntelligence()));
+        skills.setAthletics(modifier(as.getStrength()));
+        skills.setDeception(modifier(as.getCharisma()));
+        skills.setHistory(modifier(as.getIntelligence()));
+        skills.setInsight(modifier(as.getWisdom()));
+        skills.setIntimidation(modifier(as.getCharisma()));
+        skills.setInvestigation(modifier(as.getIntelligence()));
+        skills.setMedicine(modifier(as.getWisdom()));
+        skills.setNature(modifier(as.getIntelligence()));
+        skills.setPerception(modifier(as.getWisdom()));
+        skills.setPerformance(modifier(as.getCharisma()));
+        skills.setPersuasion(modifier(as.getCharisma()));
+        skills.setReligion(modifier(as.getIntelligence()));
+        skills.setSleightOfHand(modifier(as.getDexterity()));
+        skills.setStealth(modifier(as.getDexterity()));
+        skills.setSurvival(modifier(as.getWisdom()));
+        if (!skillRepo.updateSkill(skills)){
+            String msg = String.format("Id: %s not found", skills.getSkillID());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
         return result;
@@ -127,5 +156,10 @@ public class SkillService {
         }
 
         return result;
+    }
+
+    private int modifier(int value){
+        double mod = Math.floor((value-10)/2);
+        return (int) mod;
     }
 }

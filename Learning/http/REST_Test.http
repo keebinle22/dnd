@@ -21,7 +21,7 @@ PUT {{url}}/user/test HTTP/1.1
 Content-Type: application/json
 
 {
-    "id": 1,
+    "asID": 1,
     "strength": 1,
     "dexterity": 2,
     "constitution": 3,
