@@ -17,7 +17,7 @@ public class BattleStatMapper implements RowMapper<BattleStat> {
         bs.setDefense(rs.getString("defense"));
         bs.setInspiration(rs.getInt("inspiration"));
         bs.setProfBonus(rs.getInt("profBonus"));
-        bs.setAbilitySaveDC(rs.getInt("asSaveDC"));
+        bs.setAsSaveDC(rs.getInt("asSaveDC"));
         bs.setSpeed(rs.getString("speed"));
         bs.setUserID(rs.getString("userID"));
         return bs;

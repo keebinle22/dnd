@@ -16,7 +16,7 @@ Content-Type: application/json
   "profBonus": 1,
   "asSaveDC": 1,
   "speed": "1",
-  "userID": "test"
+  "userID": "reeb"
 }
 ###
 PUT {{url}}/update/test HTTP/1.1

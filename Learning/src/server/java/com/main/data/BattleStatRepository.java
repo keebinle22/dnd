@@ -39,7 +39,7 @@ public class BattleStatRepository {
             ps.setString(3, bs.getDefense());
             ps.setInt(4, bs.getInspiration());
             ps.setInt(5, bs.getProfBonus());
-            ps.setInt(6, bs.getAbilitySaveDC());
+            ps.setInt(6, bs.getAsSaveDC());
             ps.setString(7, bs.getSpeed());
             ps.setString(8, bs.getUserID());
             return ps;
@@ -69,7 +69,7 @@ public class BattleStatRepository {
                 bs.getDefense(),
                 bs.getInspiration(),
                 bs.getProfBonus(),
-                bs.getAbilitySaveDC(),
+                bs.getAsSaveDC(),
                 bs.getSpeed(),
                 bs.getUserID()) > 0;
     }

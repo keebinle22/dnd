@@ -8,11 +8,11 @@ POST {{url}}
 Content-Type: application/json
 
 {
-  "userID": "tests",
-  "classType": "test",
+  "userID": "reeb",
+  "classType": "sorcerer",
   "level": 1,
-  "race": "test",
-  "background": "test",
+  "race": "elf",
+  "background": "sage",
   "exp": 1
 }
 ###

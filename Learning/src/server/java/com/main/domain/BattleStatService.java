@@ -81,13 +81,16 @@ public class BattleStatService {
         if (bs.getInitiative() < 0){
             result.addMessage("Initiative cannot be negative.", ResultType.INVALID);
         }
-        if (bs.getArmor() <= 0){
+        if (bs.getArmor() < 0){
             result.addMessage("Armor cannot be negative.", ResultType.INVALID);
         }
         if (bs.getInspiration() < 0){
             result.addMessage("Inspiration cannot be negative.", ResultType.INVALID);
         }
-        if (bs.getAbilitySaveDC() < 0){
+        if (bs.getProfBonus() < 0){
+            result.addMessage("Proficiency Bonus cannot be negative.", ResultType.INVALID);
+        }
+        if (bs.getAsSaveDC() < 0){
             result.addMessage("Ability Save DC cannot be negative.", ResultType.INVALID);
         }
         return result;

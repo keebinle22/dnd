@@ -40,6 +40,7 @@ public class ASController {
     public ResponseEntity<Object> addAS(@RequestBody AbilityScores as){
         Result<AbilityScores> result = scoreService.add(as);
         if (result.isSuccess()){
+            skillService.update(as);
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);

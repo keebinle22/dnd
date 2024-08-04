@@ -42,6 +42,32 @@ public class SkillService {
         return result;
     }
 
+    public Result<Skills> addSkills(AbilityScores as){
+        Result<Skills> result = new Result<>();
+        Skills skills = new Skills();
+        skills.setAcrobatics(modifier(as.getDexterity()));
+        skills.setAnimalHandling(modifier(as.getWisdom()));
+        skills.setArcana(modifier(as.getIntelligence()));
+        skills.setAthletics(modifier(as.getStrength()));
+        skills.setDeception(modifier(as.getCharisma()));
+        skills.setHistory(modifier(as.getIntelligence()));
+        skills.setInsight(modifier(as.getWisdom()));
+        skills.setIntimidation(modifier(as.getCharisma()));
+        skills.setInvestigation(modifier(as.getIntelligence()));
+        skills.setMedicine(modifier(as.getWisdom()));
+        skills.setNature(modifier(as.getIntelligence()));
+        skills.setPerception(modifier(as.getWisdom()));
+        skills.setPerformance(modifier(as.getCharisma()));
+        skills.setPersuasion(modifier(as.getCharisma()));
+        skills.setReligion(modifier(as.getIntelligence()));
+        skills.setSleightOfHand(modifier(as.getDexterity()));
+        skills.setStealth(modifier(as.getDexterity()));
+        skills.setSurvival(modifier(as.getWisdom()));
+        Skills savedSkill = skillRepo.addSkill(skills);
+        result.setPayload(savedSkill);
+        return result;
+    }
+
     public Result<Skills> update(Skills updatedSkill){
         Result<Skills> result = validate(updatedSkill);
         if (!result.isSuccess()){

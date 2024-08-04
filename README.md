@@ -4,6 +4,12 @@ Created by Kevin Le
 Dungeon and Dragon (DND) is a role playing/choose your adventure game where players go on grand adventures through a fantasy world. The main narrator is called the 'Dungeon Master' (DM) and is responsible for defining the rules of the game and the world, guiding the adventures throughout the mystical land, and most importantly, creating a story that will hook players for hours on end. The players will each have their own characters with different background, abilities, and skills. All of these informations have been recorded on sheets of papers. This is will this app comes into play. The application will digitally track each character sheets and allow each player to view and update their sheet throughout the game. Additionally, the DM will be able to view all player's character sheets in parallel when creating the next adventure.
 
 ## Change Logs
+### 8/3/24
+- Added edit feature for Ability Scores, Battle Stat, Health, and Char Info.
+    - Added submit, cancel and error logic to the UI.
+- Added an add feature for AS, BS, Health, and CI.
+    - UI for user input but no backend logic has been implemented.
+- Refactored 'BrowserRouter' to 'createBrowserRouter'.
 ### 7/29/24
 - Added edit feature for Ability Scores.
     - After editing AS, calculation for skills will be made in the backend and updated in UI.

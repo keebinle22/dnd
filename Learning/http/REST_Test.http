@@ -8,13 +8,13 @@ POST {{url}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "strength": 2,
-    "dexterity": 2,
-    "constitution": 2,
-    "intelligence": 2,
-    "wisdom": 2,
-    "charisma": 2,
-    "userID": "test" 
+    "strength": 8,
+    "dexterity": 10,
+    "constitution": 11,
+    "intelligence": 13,
+    "wisdom": 12,
+    "charisma": 11,
+    "userID": "reeb" 
 }
 ###
 PUT {{url}}/user/test HTTP/1.1

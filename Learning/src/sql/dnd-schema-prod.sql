@@ -89,5 +89,8 @@ insert into skills (acrobatics, animalHandling, arcana, athletics, deception, hi
 insert into battle_stat (bsID, initiative, armor, defense, inspiration, profBonus, asSaveDC, speed, userID) value (1,1,1,null,1,1,1,1,'test');
 insert into health (healthID, maxHP, curHP, tempHP, totalHitDice, curHitDice, successDeathSaves, failDeathSaves, userID) value (1,1,1,1,1,1,1,1,'test');
 
+select * from battle_stat;
+
 select * from skills;
-delete from skills where skillID = 2;
+update skills set asID = 5 where asID = 1;
+delete from ability_score where userID = 'reeb';

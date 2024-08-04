@@ -10,7 +10,7 @@ public class BattleStat {
     private String defense;
     private int inspiration;
     private int profBonus;
-    private int abilitySaveDC;
+    private int asSaveDC;
     private String speed;
     private String userID;
 
@@ -26,14 +26,14 @@ public class BattleStat {
         this.userID = userID;
     }
 
-    public BattleStat(int bsID, int initiative, int armor, String defense, int inspiration, int profBonus, int abilitySaveDC, String speed, String userID) {
+    public BattleStat(int bsID, int initiative, int armor, String defense, int inspiration, int profBonus, int asSaveDC, String speed, String userID) {
         this.bsID = bsID;
         this.initiative = initiative;
         this.armor = armor;
         this.defense = defense;
         this.inspiration = inspiration;
         this.profBonus = profBonus;
-        this.abilitySaveDC = abilitySaveDC;
+        this.asSaveDC = asSaveDC;
         this.speed = speed;
         this.userID = userID;
     }
@@ -86,12 +86,12 @@ public class BattleStat {
         this.profBonus = profBonus;
     }
 
-    public int getAbilitySaveDC() {
-        return abilitySaveDC;
+    public int getAsSaveDC() {
+        return asSaveDC;
     }
 
-    public void setAbilitySaveDC(int abilitySaveDC) {
-        this.abilitySaveDC = abilitySaveDC;
+    public void setAsSaveDC(int asSaveDC) {
+        this.asSaveDC = asSaveDC;
     }
 
     public String getSpeed() {
@@ -115,12 +115,12 @@ public class BattleStat {
         if (this == o) return true;
         if (!(o instanceof BattleStat)) return false;
         BattleStat that = (BattleStat) o;
-        return bsID == that.bsID && initiative == that.initiative && armor == that.armor && inspiration == that.inspiration && profBonus == that.profBonus && abilitySaveDC == that.abilitySaveDC && speed == that.speed && defense.equals(that.defense) && userID.equals(that.userID);
+        return bsID == that.bsID && initiative == that.initiative && armor == that.armor && inspiration == that.inspiration && profBonus == that.profBonus && asSaveDC == that.asSaveDC && speed == that.speed && defense.equals(that.defense) && userID.equals(that.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bsID, initiative, armor, defense, inspiration, profBonus, abilitySaveDC, speed, userID);
+        return Objects.hash(bsID, initiative, armor, defense, inspiration, profBonus, asSaveDC, speed, userID);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class BattleStat {
                 ", defense='" + defense + '\'' +
                 ", inspiration=" + inspiration +
                 ", profBonus=" + profBonus +
-                ", abilitySaveDC=" + abilitySaveDC +
+                ", abilitySaveDC=" + asSaveDC +
                 ", speed=" + speed +
                 ", userID='" + userID + '\'' +
                 '}';
