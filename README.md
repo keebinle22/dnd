@@ -38,7 +38,7 @@ Dungeon and Dragon (DND) is a role playing/choose your adventure game where play
 - [ ] Refactor functions to corresponding `.js` files
 - [ ] Refactor each `.js` files
 - [ ] Rename all `action` and `loader` functions
-- [ 60% ] Add logic to as, skills, battle stat, health, and char info
+- [ ]  **60%** Add logic to as, skills, battle stat, health, and char info
 - [ ] Delete feature
 - [ ] Reformat char sheet
 - [ ] Improve home screen
@@ -52,4 +52,4 @@ Dungeon and Dragon (DND) is a role playing/choose your adventure game where play
 - [ ] Add character's About Me
 - [ ] Add spells
 - [ ] Add different class and race types
-- [ x ] Determine if updating skills should occur in frontend or backend
+- [x] Determine if updating skills should occur in frontend or backend
