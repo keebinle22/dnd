@@ -1,0 +1,68 @@
+div.health-container {
+    display: grid;
+    font-weight: bold;
+    border: 3px solid rgb(182, 197, 184);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    margin: 10px;
+}
+
+div.maxHP-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+div.curHP-container {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+div.tempHP-container {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+div.totalHit-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+div.curHit-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+div.successDeath-container {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+div.failDeath-container {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+div.health-popup {
+    position: relative;
+    z-index: 2;
+    border: 3px solid rgb(60, 218, 224);
+    background-color: rgb(203, 237, 238)
+}
+div.health-error {
+    color: red;
+    border: 3px red;
+    margin: 10%;
+}

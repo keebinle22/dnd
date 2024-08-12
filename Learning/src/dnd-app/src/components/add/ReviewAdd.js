@@ -1,0 +1,60 @@
+import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { getChar } from "../CharInfo";
+import { getAS } from "../GetSkill";
+import { getHealth } from "../Health";
+import { addBS } from "../BattleStat";
+
+function ReviewAdd(){
+    const user = useLoaderData();
+    const navigate = useNavigate();
+    const handlePrev = (evt) => {
+        evt.preventDefault();
+        navigate(-1);
+    }
+    return(
+        <>
+        <div>
+            <div className="reviewchar-container">
+                <h3>Info</h3>
+                <span>Name: {user.userID}</span>
+                <span>Race: {user.race}</span>
+                <span>Background: {user.background}</span>
+                <span>Class: {user.classType}</span>
+            </div>
+            <div className="reviewas-container">
+                <h3>Ability Score</h3>
+                <span>Strength: {user.strength}</span>
+                <span>Dexterity: {user.dexterity}</span>
+                <span>Constitution: {user.constitution}</span>
+                <span>Intelligence: {user.intelligence}</span>
+                <span>Wisdom: {user.wisdom}</span>
+                <span>Charisma: {user.charisma}</span>
+            </div>
+            <div className="reviewhealth-container">
+                <h3>Health</h3>
+                <span>Max HP: {user.maxHP}</span>
+            </div>
+            <button onClick={handlePrev}>Prev</button>
+            <Form method="post">
+                <button type="submit">Done</button>
+            </Form>
+        </div>
+        </>
+    )
+}
+export default ReviewAdd;
+
+export async function loader({params}){
+    const char = await getChar(params.userID)
+    const skill = await getAS(params.userID);
+    const health = await getHealth(params.userID);
+    return {...char, ...skill, ...health}
+}
+
+export async function action({request, params}){
+    const result = await addBS(params.userID);
+    if (result === null){
+        return redirect("/charinfo");
+    }
+    return null
+}

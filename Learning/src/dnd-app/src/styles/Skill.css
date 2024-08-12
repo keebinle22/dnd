@@ -1,0 +1,99 @@
+div.left-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 10;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 30% 70%;
+    margin: 10px;
+    margin-left: 50px;
+    grid-template-columns: 25% 1fr;
+}
+div.score-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: minmax(20px, auto);
+    justify-content: space-evenly;
+    border: 3px solid rgb(70, 70, 70);
+}
+div.score-type {
+    box-sizing: border-box;
+    font-size: large;
+    text-align: center;
+    border: 3px solid rgb(107, 25, 25);
+    border-radius: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    margin-top: 10px;
+}
+div.score-mod {
+    font-size: x-large;
+    text-align: center;
+    border: 3px solid rgb(107, 25, 25);
+    width: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-left: 30%;
+    border-radius: 100%;
+}
+div.score-num {
+    font-size: small;
+    text-align: center;
+    border: 3px solid rgb(107, 25, 25);
+    border-radius: 50%;
+    width: 40%;
+    margin-left: 42.5%;
+}
+div.skill-container {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    display: grid;
+    border: 3px solid rgb(103, 170, 247);
+}
+div.skillGrid-head {
+    font-weight: bold;
+}
+#skillGrid-row {
+    display: grid;
+    grid-template-columns: 60px 50px 130px 10px;
+    border: 3px solid rgb(84, 219, 57);
+}
+#asText {
+    width: 90%;
+    text-align: center;
+}
+div.savingThrow-container{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    display: grid;
+    grid-auto-rows: auto;
+    border: 3px solid rgb(70, 70, 70);
+}
+#throws-row{
+    display: grid;
+    text-align: left;
+    grid-template-columns: 20% 20% 1fr;
+}
+div.skill-popup{
+    border: 3px solid rgb(84, 219, 57);
+}
+div.skill-error {
+    color: red;
+    border: 3px red;
+    margin: 10%;
+}
