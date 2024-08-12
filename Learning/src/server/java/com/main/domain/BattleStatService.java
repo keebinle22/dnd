@@ -44,6 +44,22 @@ public class BattleStatService {
         return result;
     }
 
+    public Result<BattleStat> addBS(String userID){
+        Result<BattleStat> result = new Result<>();
+
+        List<BattleStat> all = getAllBS();
+        boolean repeat = all.stream().anyMatch(ci -> ci.getUserID().equalsIgnoreCase(userID));
+        if (repeat){
+            result.addMessage("Username already exist.", ResultType.INVALID);
+        }
+        if (result.isSuccess()){
+            BattleStat bs = new BattleStat(userID);
+            BattleStat savedBS = repo.addBS(bs);
+            result.setPayload(savedBS);
+        }
+        return result;
+    }
+
     public Result<BattleStat> updateBS(BattleStat bs){
         Result<BattleStat> result = validate(bs);
         if (!result.isSuccess()){

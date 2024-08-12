@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/abilityscore")
+@RequestMapping("/abilityscore")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ASController {
 
@@ -40,7 +40,7 @@ public class ASController {
     public ResponseEntity<Object> addAS(@RequestBody AbilityScores as){
         Result<AbilityScores> result = scoreService.add(as);
         if (result.isSuccess()){
-            skillService.update(as);
+            skillService.addSkills(as);
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);
@@ -50,6 +50,8 @@ public class ASController {
         if (!userID.equalsIgnoreCase(as.getUserID())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        int asID = scoreService.getAS(as.getUserID()).getAsID();
+        as.setAsID(asID);
         Result<AbilityScores> result = scoreService.update(as);
         if (result.isSuccess()){
             Result<Skills> result2 = skillService.update(as);

@@ -1,7 +1,6 @@
 package com.main.controller;
 
-import com.main.domain.CharInfoService;
-import com.main.domain.Result;
+import com.main.domain.*;
 import com.main.model.CharInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +14,15 @@ import java.util.List;
 public class CharInfoController {
 
     private final CharInfoService charInfoService;
+    private final AbilityScoreService asService;
+    private final HealthService healthService;
+    private final SkillService skillService;
 
-    public CharInfoController(CharInfoService charInfoService){
+    public CharInfoController(CharInfoService charInfoService, AbilityScoreService asService, HealthService healthService, SkillService skillService){
         this.charInfoService = charInfoService;
+        this.asService = asService;
+        this.healthService = healthService;
+        this.skillService = skillService;
     }
     @GetMapping
     public ResponseEntity<List<CharInfo>> getCharInfo(){
@@ -36,9 +41,16 @@ public class CharInfoController {
 
     @PostMapping
     public ResponseEntity<Object> addCharInfo(@RequestBody CharInfo charInfo){
+        String userID = charInfo.getUserID();
         Result<CharInfo> result = charInfoService.addCharInfo(charInfo);
         if (result.isSuccess()){
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+            if (asService.getAS(userID) == null && healthService.getHealth(userID) == null){
+                asService.add(userID);
+                healthService.addHealth(userID);
+                skillService.addSkills(asService.getAS(userID));
+
+                return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+            }
         }
         return ErrorResponse.build(result);
     }

@@ -42,6 +42,15 @@ public class BattleStatController {
         return ErrorResponse.build(result);
     }
 
+    @PostMapping("/{userID}")
+    public ResponseEntity<Object> addBS(@PathVariable String userID){
+        Result<BattleStat> result = service.addBS(userID);
+        if (result.isSuccess()){
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
     @PutMapping("/update/{userID}")
     public ResponseEntity<Object> updateBS(@PathVariable String userID, @RequestBody BattleStat bs){
         if (!userID.equalsIgnoreCase(bs.getUserID())){

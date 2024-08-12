@@ -63,6 +63,7 @@ public class SkillService {
         skills.setSleightOfHand(modifier(as.getDexterity()));
         skills.setStealth(modifier(as.getDexterity()));
         skills.setSurvival(modifier(as.getWisdom()));
+        skills.setAsID(as.getAsID());
         Skills savedSkill = skillRepo.addSkill(skills);
         result.setPayload(savedSkill);
         return result;

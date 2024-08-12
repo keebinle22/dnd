@@ -1,4 +1,4 @@
-@url = http://localhost:8080/api/abilityscore
+@url = http://localhost:8080/abilityscore
 
 GET {{url}}/user HTTP/1.1
 ###

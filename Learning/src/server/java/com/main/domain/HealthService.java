@@ -42,6 +42,11 @@ public class HealthService {
         return result;
     }
 
+    public void addHealth(String userID){
+        Health health = new Health(0,0,0,0,0,0,0,0,userID);
+        repo.addHealth(health);
+    }
+
     public Result<Health> updateHealth(Health health){
         Result<Health> result = validate(health);
         if (!result.isSuccess()){

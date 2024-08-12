@@ -25,8 +25,9 @@ public class CharInfoService {
     }
 
     public Result<CharInfo> addCharInfo(CharInfo charInfo){
-        Result<CharInfo> result = validate(charInfo);
-        if (!result.isSuccess()){
+        Result<CharInfo> result = new Result<>();
+        if (charInfo.getUserID() == null || charInfo.getUserID().isBlank() || charInfo.getUserID().isEmpty()){
+            result.addMessage("Username is required.", ResultType.INVALID);
             return result;
         }
         List<CharInfo> all = getAllCharInfo();

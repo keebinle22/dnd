@@ -38,6 +38,11 @@ public class AbilityScoreService {
         return result;
     }
 
+    public void add(String userID){
+        AbilityScores as = new AbilityScores(0,0,0,0,0,0,0,userID);
+        repo.addAS(as);
+    }
+
     public Result<AbilityScores> update(AbilityScores updatedAS){
         Result<AbilityScores> result = validate(updatedAS);
         if (!result.isSuccess()){

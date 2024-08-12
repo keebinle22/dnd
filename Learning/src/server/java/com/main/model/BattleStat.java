@@ -17,6 +17,17 @@ public class BattleStat {
     public BattleStat() {
     }
 
+    public BattleStat(String userID) {
+        this.userID = userID;
+//        this.bsID = 0;
+//        this.initiative = 0;
+//        this.armor = 0;
+//        this.profBonus = 0;
+//        this.speed = "";
+//        this.defense = "";
+//        this.asSaveDC = 0;
+    }
+
     public BattleStat(int bsID, int initiative, int armor, int profBonus, String speed, String userID) {
         this.bsID = bsID;
         this.initiative = initiative;

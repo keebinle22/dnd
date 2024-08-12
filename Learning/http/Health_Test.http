@@ -16,7 +16,7 @@ Content-Type: application/json
   "curHitDice": 1,
   "successDeathSaves": 1,
   "failDeathSaves": 1,
-  "userID": "reeb"
+  "userID": "l"
 }
 ###
 PUT {{url}}/update/test HTTP/1.1
