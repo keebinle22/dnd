@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, redirect, useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { Form, redirect, useActionData, useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { getChar } from "../CharInfo";
 
 function AddCharInfo(){
@@ -11,6 +11,7 @@ function AddCharInfo(){
     const [race, setRace] = useState(char === undefined ? "" : char.race);
     const [background, setBackground] = useState(char === undefined ? "" : char.background);
     const navigate = useNavigate();
+    const errors = useActionData();
 
     const handleNameChange = (evt) => {
         setName(evt.target.value === undefined ? name : evt.target.value)
@@ -81,6 +82,7 @@ function AddCharInfo(){
 export default AddCharInfo;
 
 export async function action({request, params}) {
+    const errors = [];
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
     await updateChar(params.userID, updates);

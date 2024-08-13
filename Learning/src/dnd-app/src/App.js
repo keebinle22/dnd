@@ -44,6 +44,7 @@ function App() {
         {
           path: "/createchar/user",
           element: <AddUser/>,
+          errorElement: <ErrorPage/>,
           action: addUserAction
         },
         {

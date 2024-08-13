@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, redirect, useFetcher, useLoaderData, useNavigate } from "react-router-dom";
+import { Form, redirect, useActionData, useFetcher, useLoaderData, useNavigate } from "react-router-dom";
 import { getAS } from "../GetSkill";
 
 function AddSkill(){
@@ -11,6 +11,7 @@ function AddSkill(){
     const [wisdom, setWisdom] = useState(as === undefined ? 0 : as.wisdom);
     const [charisma, setCharisma] = useState(as === undefined ? 0 : as.charisma);
     const navigate = useNavigate();
+    const errors = useActionData();
     const fetcher = useFetcher({key: "charinfo"});
 
     const handleStrengthChange = (evt) => {
@@ -56,6 +57,7 @@ function AddSkill(){
     return(
         <>
         <div>
+            <div>{errors === undefined ? "" : errors}</div>
             <Form method="post">
                 <div>
                     <span>Rollie the dice</span>
@@ -94,8 +96,29 @@ function AddSkill(){
 export default AddSkill;
 
 export async function action({request, params}){
+    const errors = [];
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
+    if (updates.strength){errors.str = "Strength cannot be blank."}
+    if (updates.dexterity) { errors.dex = "Dexterity cannot be blank." }
+    if (updates.constitution) { errors.con = "Constitution cannot be blank." }
+    if (updates.intelligence) { errors.int = "Intelligence cannot be blank." }
+    if (updates.wisdom) { errors.wis = "Wisdom cannot be blank." }
+    if (updates.charisma) { errors.cha = "Charisma cannot be blank." }
+    const keys = Object.keys(updates);
+    const values = Object.values(updates)
+    console.log(updates)
+    for (let i = 0; i < values.length; i++) {
+        if (!values[i]) { 
+            errors.push(capital(`${keys[i]} cannot be blank.`));
+        }
+        if (values[i] > 20 || values[i] < 0){
+            errors.push(capital(`${keys[i]} must be between 0 and 20.`))
+        }
+    }
+    if (errors.length){
+        return errors;
+    }
     await updateSkill(params.userID, updates);
     return redirect("/createchar/" + params.userID + "/health");
 }
@@ -126,4 +149,8 @@ export async function updateSkill(userID, skill){
             }
         })
         .catch(err => console.error("message: " + err));
+}
+
+function capital(str){
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
