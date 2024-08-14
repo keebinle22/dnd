@@ -2,6 +2,7 @@ package com.main.controller;
 
 import com.main.domain.Result;
 import com.main.domain.SkillService;
+import com.main.model.AbilityScores;
 import com.main.model.Skills;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,15 @@ public class SkillController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         Result<Skills> result = skillService.update(skills);
+        if (result.isSuccess()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @DeleteMapping("/{userID}")
+    public ResponseEntity<Object> deleteSkill(@PathVariable int asID){
+        Result<Skills> result = skillService.delete(asID);
         if (result.isSuccess()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

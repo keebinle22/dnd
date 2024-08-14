@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
-import { Form, redirect, useActionData, useFetcher } from "react-router-dom";
+import { Form, redirect, useActionData, useFetcher, useNavigate } from "react-router-dom";
 
 function AddUser(){
     const [userID, setUserID] = useState("");
     const error = useActionData();
+    const navigate = useNavigate();
     const handleNameChange = (evt) => {
         setUserID(evt.target.value === undefined ? userID : evt.target.value)
+    }
+    const handleCancel = (evt) => {
+        evt.preventDefault();
+        navigate("/charinfo");
     }
     return(
         <>
         <Form method="post">
-            <div>{error === undefined ? "" : error.format}</div>
+            <div>{error?.format && error.format}</div>
+            <div>{error?.result && error.result}</div>
             <span>Username: </span>
             <input className="create-input" type="text" name="userID" onChange={handleNameChange} value={userID} />
+            <button onClick={handleCancel}>Cancel</button>
             <button type="submit">Next</button>
         </Form>
         </>
@@ -66,7 +73,8 @@ export async function action({request}){
     }
     const result = await newChar(updates.userID); //adds empty charinfo w/username
     if (result){
-        return errors.result = result;
+        errors.result = result;
+        return errors
     }
     return redirect("/createchar/" + updates.userID);
 

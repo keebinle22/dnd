@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Form, redirect, useActionData, useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { Form, redirect, useActionData, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { getChar } from "../CharInfo";
 
 function AddCharInfo(){
-    const fetcher = useFetcher({ key: "charinfo"});
     const char = useLoaderData();
     const {userID: userID} = useParams();
     const [name,setName] = useState(userID);
@@ -32,7 +31,12 @@ function AddCharInfo(){
     return(
         <>
             <div>
-                <fetcher.Form method="post">
+                {errors?.user && <span>{errors.user}</span>}
+                {errors?.race && <span>{errors.race}</span>}
+                {errors?.background && <span>{errors.background}</span>}
+                {errors?.classType && <span>{errors.classType}</span>}
+                {errors?.result && <span>{errors.result}</span>}
+                <Form method="put">
                     <div>
                         <span>Name: </span>
                         <input className="create-input" type="text" name="userID" onChange={handleNameChange} value={name}/>
@@ -57,7 +61,7 @@ function AddCharInfo(){
                     <div>
                         <span>Class: </span>
                         <select id="classType" name="classType" defaultValue={classType} onChange={handleClassChange}>
-                            <option>--Select--</option>
+                            <option value="">--Select--</option>
                             <option value="barbarian">Barbarian</option>
                             <option value="bard">Bard</option>
                             <option value="cleric">Cleric</option>
@@ -74,7 +78,7 @@ function AddCharInfo(){
                     </div>
                     <button onClick={handlePrev}>Prev</button>
                     <button type="submit">Next</button>
-                </fetcher.Form>
+                </Form>
             </div>
             </>
     )
@@ -82,15 +86,35 @@ function AddCharInfo(){
 export default AddCharInfo;
 
 export async function action({request, params}) {
-    const errors = [];
+    const errors = {};
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    await updateChar(params.userID, updates);
+    if (!updates.userID) {
+        errors.user = "User cannot be blank.";
+    }
+    if (!updates.race){
+        errors.race = "Please select a race.";
+    }
+    if (!updates.background) {
+        errors.background = "Background cannot be blank.";
+    }
+    if (!updates.classType) {
+        errors.classType = "Please select a class.";
+    }
+    if (Object.keys(errors).length) {
+        return errors;
+    }
+    const result = await updateChar(params.userID, updates);
+    if (result){
+        errors.result = result;
+        return errors;
+    }
     return redirect("/createchar/" + params.userID +"/scores");
 }
 
 export async function loader({params}){
     const charInfo = await getChar(params.userID);
+    console.log('test')
     return charInfo;
 }
 
@@ -107,15 +131,17 @@ export async function updateChar(userID, charInfo) {
         },
         body: JSON.stringify(char)
     };
-    await fetch(`http://localhost:8080/charinfo/update/${userID}`, init)
+    const result = await fetch(`http://localhost:8080/charinfo/update/${userID}`, init)
         .then(response => {
             switch (response.status) {
                 case 204:
-                    break;
+                    return null;
                     // return response.json();
                 case 404:
                     console.log("updateChar error");
-                    return null;
+                    return response;
+                case 409:
+                    return "Mismatch. Editing username will be implemented later."
                 default:
                     return Promise.reject("Something went wrong here");
             }
@@ -124,4 +150,5 @@ export async function updateChar(userID, charInfo) {
         //     return body;
         // })
         .catch(err => console.error(err));
+    return result;
 }

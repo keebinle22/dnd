@@ -65,14 +65,15 @@ function BattleStat(){
 }
 export default BattleStat;
 
-export async function addBS(userID){
+export async function addBS(bs){
     const start = {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify(bs)
     };
-    return fetch(`http://localhost:8080/battlestat/${userID}`, start)
+    return fetch("http://localhost:8080/battlestat", start)
         .then(response => {
             console.log(response.status);
             switch (response.status) {

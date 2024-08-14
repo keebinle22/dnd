@@ -61,4 +61,21 @@ public class ASController {
         }
         return ErrorResponse.build(result);
     }
+
+    @DeleteMapping("/{userID}")
+    public ResponseEntity<Object> deleteAS(@PathVariable String userID){
+        ResponseEntity<AbilityScores> as = findASByUser(userID);
+        if (!as.getStatusCode().is2xxSuccessful()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Result<Skills> skillResult = skillService.delete(as.getBody().getAsID());
+        if (skillResult.isSuccess()){
+            Result<AbilityScores> result = scoreService.delete(userID);
+            if (skillResult.isSuccess()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return ErrorResponse.build(result);
+        }
+        return ErrorResponse.build(skillResult);
+    }
 }

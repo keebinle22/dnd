@@ -28,4 +28,4 @@ Content-Type: application/json
   "exp": 1
 }
 ###
-DELETE  {{url}}/delete/tests HTTP/1.1
+DELETE  {{url}}/delete/test HTTP/1.1

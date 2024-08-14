@@ -98,4 +98,9 @@ public class SkillRepository {
                 skills.getInvestigation(), skills.getMedicine(),skills.getNature(),skills.getPerception(),skills.getPerformance(),skills.getPersuasion(),skills.getReligion(),skills.getSleightOfHand(),skills.getStealth(),
                 skills.getSurvival(), skills.getAsID()) > 0;
     }
+
+    public boolean deleteSkill(int asID){
+        final String sql = "delete from skills where asID = ?;";
+        return jdbcTemplate.update(sql, asID) > 0;
+    }
 }

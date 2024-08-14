@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { Form, redirect, useActionData, useLoaderData, useNavigate } from "react-router-dom";
 import { getHealth } from "../Health";
 
 function AddHealth(){
     const healthload = useLoaderData();
     const [health, setHealth] = useState(healthload === undefined ? 0 : healthload.maxHP);
     const navigate = useNavigate();
+    const errors = useActionData();
     const handleHealthChange = (evt) => {
         setHealth(evt.target.value === undefined ? health : evt.target.value)
     }
@@ -19,6 +20,9 @@ function AddHealth(){
     return(
         <>
         <div>
+            <div>
+                {errors?.hp && <span>{errors.hp}</span>}
+            </div>
             <Form method="post">
                 <div>
                     <span>Health (Roll 1d6): </span>
@@ -34,9 +38,23 @@ function AddHealth(){
 export default AddHealth;
 
 export async function action({ request, params }) {
+    const errors = {};
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    await updateHealth(params.userID, updates);
+    if (!updates.health){
+        errors.hp = "Invalid HP value.";
+        return errors;
+    }
+    if (updates.health < 1 || updates.health > 6){
+        errors.hp = "HP is not in range of 1d6.";
+        return errors;
+    }
+    const result = await updateHealth(params.userID, updates);
+    console.log(updates);
+    if (result){
+        errors.result = result;
+        return errors;
+    }
     return redirect("/createchar/" + params.userID + "/review");
 }
 
@@ -62,17 +80,18 @@ export async function updateHealth(userID, hp) {
             userID: userID
         })
     };
-    fetch(`http://localhost:8080/health/update/${userID}`, start)
+    const result = fetch(`http://localhost:8080/health/update/${userID}`, start)
         .then(response => {
             switch (response.status) {
                 case 204:
                     return null;
                 case 400:
                     console.log("error")
-                    return null;
+                    return "400 error";
                 default:
                     return Promise.reject("Something went wrong here");
             };
         })
         .catch(err => console.error(err));
+    return result;
 }

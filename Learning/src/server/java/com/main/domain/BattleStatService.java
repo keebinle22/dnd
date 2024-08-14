@@ -94,9 +94,9 @@ public class BattleStatService {
         if (bs.getUserID() == null || bs.getUserID().isEmpty() || bs.getUserID().isBlank()){
             result.addMessage("Username is required.", ResultType.INVALID);
         }
-        if (bs.getInitiative() < 0){
-            result.addMessage("Initiative cannot be negative.", ResultType.INVALID);
-        }
+//        if (bs.getInitiative() < 0){
+//            result.addMessage("Initiative cannot be negative.", ResultType.INVALID);
+//        }
         if (bs.getArmor() < 0){
             result.addMessage("Armor cannot be negative.", ResultType.INVALID);
         }

@@ -1,7 +1,7 @@
 package com.main.controller;
 
 import com.main.domain.*;
-import com.main.model.CharInfo;
+import com.main.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +17,14 @@ public class CharInfoController {
     private final AbilityScoreService asService;
     private final HealthService healthService;
     private final SkillService skillService;
+    private final BattleStatService battleStatService;
 
-    public CharInfoController(CharInfoService charInfoService, AbilityScoreService asService, HealthService healthService, SkillService skillService){
+    public CharInfoController(CharInfoService charInfoService, AbilityScoreService asService, HealthService healthService, SkillService skillService, BattleStatService battleStatService){
         this.charInfoService = charInfoService;
         this.asService = asService;
         this.healthService = healthService;
         this.skillService = skillService;
+        this.battleStatService = battleStatService;
     }
     @GetMapping
     public ResponseEntity<List<CharInfo>> getCharInfo(){
@@ -69,10 +71,28 @@ public class CharInfoController {
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Object> deleteCharInfo(@PathVariable String userId){
-        Result<CharInfo> result = charInfoService.deleteCharInfo(userId);
-        if (result.isSuccess()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        AbilityScores as = asService.getAS(userId);
+        Result<Skills> skillsResult = skillService.delete(as.getAsID());
+        if (skillsResult.isSuccess()){
+            Result<AbilityScores> asResult = asService.delete(userId);
+            if (asResult.isSuccess()){
+                Result<Health> healthResult = healthService.deleteHealth(userId);
+                if (healthResult.isSuccess()){
+                    Result<BattleStat> bsResult = battleStatService.deleteBS(userId);
+                    if (bsResult.isSuccess()){
+                        Result<CharInfo> charResult = charInfoService.deleteCharInfo(userId);
+                        if (charResult.isSuccess()){
+                            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                        }
+                        return ErrorResponse.build(charResult);
+                    }
+                    return ErrorResponse.build(bsResult);
+                }
+                return ErrorResponse.build(healthResult);
+            }
+            return ErrorResponse.build(asResult);
         }
-        return ErrorResponse.build(result);
+        return ErrorResponse.build(skillsResult);
+
     }
 }

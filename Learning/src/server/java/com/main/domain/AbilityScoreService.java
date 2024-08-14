@@ -59,6 +59,19 @@ public class AbilityScoreService {
         return result;
     }
 
+    public Result<AbilityScores> delete(String userID){
+        Result<AbilityScores> result = new Result<>();
+        if (userID.isBlank() || userID.isEmpty()){
+            result.addMessage("Username is required.", ResultType.INVALID);
+            return result;
+        }
+        if (!repo.deleteAS(userID)){
+            String msg = String.format("%s does not exist.", userID);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+        return result;
+    }
+
     private Result<AbilityScores> validate(AbilityScores as){
         Result<AbilityScores> result = new Result<>();
 

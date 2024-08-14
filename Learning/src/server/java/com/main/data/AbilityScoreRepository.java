@@ -80,4 +80,9 @@ public class AbilityScoreRepository {
 
         return jdbcTemplate.update(sql, as.getStrength(), as.getDexterity(), as.getConstitution(), as.getIntelligence(), as.getWisdom(), as.getCharisma(), as.getUserID()) > 0;
     }
+
+    public boolean deleteAS(String userID){
+        final String sql = "delete from ability_score where userID = ?;";
+        return jdbcTemplate.update(sql, userID) > 0;
+    }
 }

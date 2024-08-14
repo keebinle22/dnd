@@ -113,6 +113,19 @@ public class SkillService {
         return result;
     }
 
+    public Result<Skills> delete(int asID){
+        Result<Skills> result = new Result<>();
+        if (asID == 0){
+            result.addMessage("Username is required.", ResultType.INVALID);
+            return result;
+        }
+        if (!skillRepo.deleteSkill(asID)){
+            String msg = String.format("%d does not exist.", asID);
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+        return result;
+    }
+
     private Result<Skills> validate(Skills skills){
         Result<Skills> result = new Result<>();
 

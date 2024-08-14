@@ -1,9 +1,13 @@
-# DND App v.1.3.1
+# DND App v.1.4.0
 Created by Kevin Le
 ## About
 Dungeon and Dragon (DND) is a role playing/choose your adventure game where players go on grand adventures through a fantasy world. The main narrator is called the 'Dungeon Master' (DM) and is responsible for defining the rules of the game and the world, guiding the adventures throughout the mystical land, and most importantly, creating a story that will hook players for hours on end. The players will each have their own characters with different background, abilities, and skills. All of these informations have been recorded on sheets of papers. This is will this app comes into play. The application will digitally track each character sheets and allow each player to view and update their sheet throughout the game. Additionally, the DM will be able to view all player's character sheets in parallel when creating the next adventure.
 
 ## Change Logs
+### 8/13/24
+- Added client side form validation for Char Info and Health
+- Added character sheet deletion
+    - Modified backend where `CharInfoController` will delete all dependant tables
 ### 8/12/24
 - Added client side form validation for Add User and Ability Scores
     - Utilized `useActionData` for validations.
@@ -43,7 +47,7 @@ Dungeon and Dragon (DND) is a role playing/choose your adventure game where play
 - [ ] Refactor each `.js` files
 - [ ] Rename all `action` and `loader` functions
 - [ ]  **60%** Add logic to as, skills, battle stat, health, and char info
-- [ ] Delete feature
+- [x] Delete feature
 - [ ] Reformat char sheet
 - [ ] Improve home screen
 - [ ] Add text area for languages and actions

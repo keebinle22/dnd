@@ -12,7 +12,7 @@ function AddSkill(){
     const [charisma, setCharisma] = useState(as === undefined ? 0 : as.charisma);
     const navigate = useNavigate();
     const errors = useActionData();
-    const fetcher = useFetcher({key: "charinfo"});
+    const fetcher = useFetcher({key: "as"});
 
     const handleStrengthChange = (evt) => {
         setStrength(evt.target.value === undefined ? strength : evt.target.value);
@@ -47,7 +47,6 @@ function AddSkill(){
             wisdom: wisdom,
             charisma: charisma
         }
-        console.log(score);
         navigate("/createchar/health");
     }
     const handlePrev = (evt) => {
@@ -99,15 +98,14 @@ export async function action({request, params}){
     const errors = [];
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    if (updates.strength){errors.str = "Strength cannot be blank."}
-    if (updates.dexterity) { errors.dex = "Dexterity cannot be blank." }
-    if (updates.constitution) { errors.con = "Constitution cannot be blank." }
-    if (updates.intelligence) { errors.int = "Intelligence cannot be blank." }
-    if (updates.wisdom) { errors.wis = "Wisdom cannot be blank." }
-    if (updates.charisma) { errors.cha = "Charisma cannot be blank." }
+    // if (updates.strength){errors.str = "Strength cannot be blank."}
+    // if (updates.dexterity) { errors.dex = "Dexterity cannot be blank." }
+    // if (updates.constitution) { errors.con = "Constitution cannot be blank." }
+    // if (updates.intelligence) { errors.int = "Intelligence cannot be blank." }
+    // if (updates.wisdom) { errors.wis = "Wisdom cannot be blank." }
+    // if (updates.charisma) { errors.cha = "Charisma cannot be blank." }
     const keys = Object.keys(updates);
     const values = Object.values(updates)
-    console.log(updates)
     for (let i = 0; i < values.length; i++) {
         if (!values[i]) { 
             errors.push(capital(`${keys[i]} cannot be blank.`));
@@ -119,7 +117,10 @@ export async function action({request, params}){
     if (errors.length){
         return errors;
     }
-    await updateSkill(params.userID, updates);
+    const result = await updateSkill(params.userID, updates);
+    if (result){
+        errors.push(result);
+    }
     return redirect("/createchar/" + params.userID + "/health");
 }
 

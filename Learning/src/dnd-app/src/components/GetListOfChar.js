@@ -24,8 +24,11 @@ function GetListOfChar(){
             })
             .catch(err => console.error(err));
         }
-    useEffect(() => getCharInfo, []);
+    useEffect(() => getCharInfo, [charInfos]);
 
+    const handleDelete = (userID) => {
+        deleteChar(userID);
+    }
     return (
         <>
         <h2>Characters</h2>
@@ -42,6 +45,7 @@ function GetListOfChar(){
                         <td>{c.userID}</td>
                         <td>
                             <button onClick={() => navigate(`/char/${c.userID}`)}>View</button>
+                            <button onClick={() => handleDelete(c.userID)}>Delete</button>
                         </td>
                         </tr> 
                         : 
@@ -57,3 +61,20 @@ function GetListOfChar(){
     )
 }
 export default GetListOfChar;
+
+export async function deleteChar(userID){
+    const init = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    fetch(`http://localhost:8080/charinfo/delete/${userID}`, init)
+        .then(response => {
+            if (response.status === 204) {
+                return null;
+            }
+            return Promise.reject("Something went wrong here");
+        })
+        .catch(err => console.error(err));
+}
