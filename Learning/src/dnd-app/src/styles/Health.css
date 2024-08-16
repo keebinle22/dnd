@@ -1,45 +1,80 @@
 div.health-container {
     display: grid;
     font-weight: bold;
-    border: 3px solid rgb(182, 197, 184);
-    grid-template-columns: repeat(3, 1fr);
+    border: 3px solid rgb(70, 70, 70);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     margin: 10px;
 }
-
-div.maxHP-container {
+div.hp-container{
     grid-column-start: 1;
-    grid-column-end: 2;
+    grid-column-end: 5;
     grid-row-start: 1;
     grid-row-end: 2;
-}
 
-div.curHP-container {
-    grid-column-start: 2;
+    border: 3px solid rgb(48, 48, 48);
+    border-radius: 10px;
+    margin: 5px;
+    display: flex;
+    place-items: center;
+    
+}
+div.hit-container{
+    grid-column-start: 1;
     grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    border: 3px solid rgb(48, 48, 48);
+    border-radius: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+div.death-container{
+    grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    border: 3px solid rgb(48, 48, 48);
+    border-radius: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+div.health{
+    flex: auto;
+}
+div#maxHP-container {
 }
 
-div.tempHP-container {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 2;
+div#curHP-container {
+}
+
+div#tempHP-container {
+}
+.hp-container label{
+    display: block;
+    text-align: center;
+    margin: 10px;
+    margin-top: 0px;
+}
+.hp-container span {
+    display: block;
+    text-align: center;
+    margin: 10px;
+    font-size: 2em;
 }
 
 div.totalHit-container {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    flex: 1;
 }
 
 div.curHit-container {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    flex: 2;
 }
 
 div.successDeath-container {
@@ -54,15 +89,62 @@ div.failDeath-container {
     grid-column-end: 4;
     grid-row-start: 3;
     grid-row-end: 4;
+
 }
-div.health-popup {
+/* EditHealth.js */
+/* .popup{
     position: relative;
+    right: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200%;
+} */
+div.health-popup {
     z-index: 2;
+    width: 200%;
+    padding: 10% 10%;
     border: 3px solid rgb(60, 218, 224);
-    background-color: rgb(203, 237, 238)
+    background-color: rgb(203, 237, 238);
 }
 div.health-error {
     color: red;
     border: 3px red;
     margin: 10%;
+}
+div.edit-health-popup {
+    width: 100%;
+}
+div.edit-health-popup label{
+    display: block;
+    margin-top: 10px;
+}
+div.edit-health-popup input[type="number"] {
+    width: 100%;
+}
+div.edit-health-popup form{
+    padding: 0% 20%;
+}
+div.edit-health-popup h2{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+div.health-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+div.health-button button {
+    box-sizing: border-box;
+    margin: 5%;
+    background-color: rgb(48, 48, 48);
+    color:antiquewhite;
+    padding: 4%;
+}
+
+/* =====================ADD======================== */
+
+#health-error{
+    color: rgb(145, 28, 28);
+    font-weight: 500;
 }

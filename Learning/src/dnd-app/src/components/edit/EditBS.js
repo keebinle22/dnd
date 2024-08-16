@@ -77,7 +77,7 @@ function EditBS({ bs, editBS, closePop }){
     };
     return(
         <>
-        <div className="bs-popup">
+        <div className="bs-popup popup">
             {error ?
                 <div className="bs-error">{error.map((e, idx) =>
                     <div key={idx}>{e}</div>)}</div>

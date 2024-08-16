@@ -66,7 +66,7 @@ function EditCharinfo({ci, handleCI, closePopup}){
     }
     return(
         <>
-        <div className="ci-popup">
+        <div className="ci-popup popup">
             {error ? 
                 <div className="ci-error">{error.map((e,idx) =>
                 <div key={idx}>{e}</div>)}</div> 

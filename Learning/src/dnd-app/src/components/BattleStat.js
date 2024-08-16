@@ -44,14 +44,36 @@ function BattleStat(){
         bs ? (
             <>
             <div className="bs-container">
-                <div className="initiative-container">Init: {bs.initiative}</div>
-                <div className="armor-container">Armor: {bs.armor}</div>
-                <div className="defense-container">Defense: {bs.defense}</div>
-                <div className="inspiration-container">Insp: {bs.inspiration}</div>
-                <div className="profbonus-container">Prof Bonus: {bs.profBonus}</div>
-                <div className="assavedc-container">AS Save DC: {bs.asSaveDC}</div>
-                <div className="speed-container">Speed: {bs.speed}</div>
-                <button onClick={openPopup}>Edit</button>
+                <div className="initiative-container backdrop">
+                    <label>Init</label>
+                    <span>
+                        {bs.initiative}
+                    </span>
+                </div>
+                <div className="armor-container backdrop">
+                    <label>Armor</label>
+                    <span>{bs.armor}</span>
+                </div>
+                <div className="defense-container backdrop">
+                    <label>Defense</label>
+                    <span>{bs.defense}</span>
+                </div>
+                <div className="inspiration-container backdrop">
+                    <label>Inspiration</label>
+                    <span>{bs.inspiration}</span>
+                </div>
+                <div className="profbonus-container backdrop">
+                    <label>Prof Bonus</label>
+                    <span>{bs.profBonus}</span> 
+                </div>
+                <div className="assavedc-container backdrop">
+                    <label>AS Save DC</label>
+                    <span>{bs.asSaveDC}</span>
+                </div>
+                <div className="speed-container backdrop">
+                    <label>Speed</label>
+                    <span>{bs.speed}</span>
+                </div>
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
                     <EditBS bs={bs} editBS={handleBS} closePop={closePopup} />
                 </Popup>

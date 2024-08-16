@@ -10,11 +10,11 @@ function CharSheet(){
     
     return(
         <>
-        <div>
-            <button onClick={() => navigate('/home')}>Return</button>
-        </div>
         <div className="header">
-            <h1>{userID}</h1>
+            <div id='actionbutton'>
+                <button onClick={() => navigate('/home')}>Return</button>
+            </div>
+            <h1 id="username">{userID}</h1>
             <Charinfo/>
         </div>
         <div className="stat-container">

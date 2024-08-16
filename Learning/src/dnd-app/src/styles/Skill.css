@@ -2,47 +2,48 @@ div.left-container {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: 10;
+    grid-row-end: 6;
 
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 30% 70%;
-    margin: 10px;
-    margin-left: 50px;
-    grid-template-columns: 25% 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    margin: 5px;
+    grid-template-columns: 40% 1fr;
 }
 div.score-container {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: 3;
-
+    grid-row-end: 5;
+    
     display: grid;
     grid-template-columns: auto;
     grid-auto-rows: minmax(20px, auto);
-    justify-content: space-evenly;
     border: 3px solid rgb(70, 70, 70);
+    margin: inherit;
+}
+div.as-container{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    margin-block: 0%;
+    border-block: 5px dashed rgb(70, 70, 70);
 }
 div.score-type {
-    box-sizing: border-box;
     font-size: large;
+    font-weight: bold;
+    place-self: top;
     text-align: center;
     border: 3px solid rgb(107, 25, 25);
     border-radius: 10px;
-    padding-inline-start: 10px;
-    padding-inline-end: 10px;
-    margin-top: 10px;
+    padding: 5% 10%;
+    margin: 5%;
 }
 div.score-mod {
-    font-size: x-large;
+    font-size: 2em;
     text-align: center;
     border: 3px solid rgb(107, 25, 25);
-    width: 20%;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    margin-left: 30%;
+    padding: 5% 20%;
     border-radius: 100%;
 }
 div.score-num {
@@ -51,24 +52,33 @@ div.score-num {
     border: 3px solid rgb(107, 25, 25);
     border-radius: 50%;
     width: 40%;
-    margin-left: 42.5%;
+    margin: 5%;
 }
 div.skill-container {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-end: 5;
 
     display: grid;
-    border: 3px solid rgb(103, 170, 247);
+    grid-template-rows: repeat(20, auto);
+    border: 3px solid rgb(70, 70, 70);
+    margin: inherit;
 }
 div.skillGrid-head {
     font-weight: bold;
 }
+div.skillGrid-head div.prof{
+    padding: 0% 5%;
+}
 #skillGrid-row {
     display: grid;
-    grid-template-columns: 60px 50px 130px 10px;
-    border: 3px solid rgb(84, 219, 57);
+    grid-template-columns: 20% 25% 40% 15%;
+    margin-inline: inherit;
+    place-items: center;
+    text-align: center;
+    padding-inline: 7px;
+    font-size: 15px;
 }
 #asText {
     width: 90%;
@@ -81,13 +91,26 @@ div.savingThrow-container{
     grid-row-end: 2;
 
     display: grid;
-    grid-auto-rows: auto;
+    grid-auto-rows: repeat(7, auto);
     border: 3px solid rgb(70, 70, 70);
+    margin: inherit;
 }
-#throws-row{
+div#throws-row{
     display: grid;
-    text-align: left;
     grid-template-columns: 20% 20% 1fr;
+    place-items: center;
+    margin: inherit;
+}
+div.mod{
+    text-decoration: solid underline;
+}
+label#container-label{
+    place-self: end center;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 0%;
+
 }
 div.skill-popup{
     border: 3px solid rgb(84, 219, 57);
@@ -96,4 +119,11 @@ div.skill-error {
     color: red;
     border: 3px red;
     margin: 10%;
+}
+
+/* =============ADD======================== */
+
+#as-error{
+    color: rgb(145, 28, 28);
+    font-weight: 500;
 }

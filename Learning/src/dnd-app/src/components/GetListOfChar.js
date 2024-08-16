@@ -31,31 +31,38 @@ function GetListOfChar(){
     }
     return (
         <>
-        <h2>Characters</h2>
-        <table>
-            <thead>
-                <tr>
-                    <td>Name</td>
-                </tr>
-            </thead>
-            <tbody>
-                {charInfos.map((c, i) => (
-                    c.userID !== null ? 
-                        <tr key={i}>
-                        <td>{c.userID}</td>
-                        <td>
-                            <button onClick={() => navigate(`/char/${c.userID}`)}>View</button>
-                            <button onClick={() => handleDelete(c.userID)}>Delete</button>
-                        </td>
-                        </tr> 
-                        : 
-                        <></>
-                ))}
-            </tbody>
-        </table>
-        <div>
-            <button onClick={() => navigate("/createchar")}>Create</button>
-            <button onClick={() => navigate("/home")}>Home</button>
+        <div className="col-container">
+            <div className="header-text">Character Selection</div>
+            <div id="selection-action">
+                <button className="actionbutton" onClick={() => navigate("/createchar")}>Create</button>
+                <button className="actionbutton" onClick={() => navigate("/home")}>Home</button>
+            </div>
+            <table id="char-table">
+                <thead>
+                    <tr className="tr-head">
+                        <td>Name</td>
+                        <td>Level</td>
+                        <td>Class</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {charInfos.map((c, i) => (
+                        c.userID !== null ? 
+                            <tr key={i}>
+                            <td className="name">{c.userID}</td>
+                            <td className="level">Level</td>
+                            <td className="class">Class</td>
+                            <td className="action">
+                                <button className="actionbutton" onClick={() => navigate(`/char/${c.userID}`)}>View</button>
+                                <button className="actionbutton" onClick={() => handleDelete(c.userID)}>Delete</button>
+                            </td>
+                            </tr> 
+                            : 
+                            <></>
+                    ))}
+                </tbody>
+            </table>
         </div>
         </>
     )

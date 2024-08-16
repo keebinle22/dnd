@@ -37,12 +37,26 @@ function Charinfo(){
     return (
         <>
         <div className="charinfo-container">
-            <div className="classType">Class Type: {charInfo.classType}</div>
-            <div className="level">Level: {charInfo.level}</div>
-            <div className="race">Race: {charInfo.race}</div>
-            <div className="background">Background: {charInfo.background}</div>
-            <div className="exp">Exp: {charInfo.exp}</div>
-            <button onClick={openPopup}>Edit</button>
+            <div className="classType">
+                <span>{charInfo.classType}</span>
+                <label>Class</label>
+            </div>
+            <div className="level">
+                <span>{charInfo.level}</span>
+                <label>Level</label> 
+            </div>
+            <div className="race">
+                <span>{charInfo.race}</span>
+                <label>Race</label>
+            </div>
+            <div className="background">
+                <span>{charInfo.background}</span>
+                <label>Background</label>
+            </div>
+            <div className="exp">
+                <span>{charInfo.exp}</span>
+                <label>Experience</label>
+            </div>
             <Popup ref={ref} closeOnDocumentClick={false} modal>
                 <EditCharinfo ci={charInfo} handleCI={handleCI} closePopup={closePopup}/>
             </Popup>

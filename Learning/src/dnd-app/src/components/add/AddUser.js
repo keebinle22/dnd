@@ -15,12 +15,15 @@ function AddUser(){
     return(
         <>
         <Form method="post">
-            <div>{error?.format && error.format}</div>
-            <div>{error?.result && error.result}</div>
-            <span>Username: </span>
-            <input className="create-input" type="text" name="userID" onChange={handleNameChange} value={userID} />
-            <button onClick={handleCancel}>Cancel</button>
-            <button type="submit">Next</button>
+            <div className="col-container form">
+                <div className="errormessage" id="user-error" hidden={!error?.format}>{(error?.format && error.format) || (error?.result && error.result)}</div>
+                <label className="label-form" id="add-user">Username</label>
+                <input className="add-form" type="text" name="userID" onChange={handleNameChange} value={userID} />
+                <div className="add-action">
+                    <button className="actionbutton" onClick={handleCancel}>Cancel</button>
+                    <button className="actionbutton" type="submit">Next</button>
+                </div>
+            </div>
         </Form>
         </>
     )

@@ -81,7 +81,7 @@ function EditSkill({as, setScore, closePopup, getSkill}){
     }
     return(
         <>
-        <div className="skill-popup">
+        <div className="skill-popup popup">
             {error ? 
                 <div className="skill-error">{error.map((e,i) =>
                     <div key={i}>{e}</div>)}

@@ -56,37 +56,41 @@ function AddSkill(){
     return(
         <>
         <div>
-            <div>{errors === undefined ? "" : errors}</div>
             <Form method="post">
-                <div>
-                    <span>Rollie the dice</span>
+                <div className="col-container form">
+                    <div className="errormessage" id="as-error" hidden={!errors}>{errors}</div>
+                    <div className="form-container">
+                        <span>Rollie the dice</span>
+                    </div>
+                    <div className="form-container">
+                        <label className="label-form">Strength</label>
+                        <input className="add-form" type="number" name="strength" onChange={handleStrengthChange} value={strength}/>
+                    </div>
+                    <div className="form-container">
+                        <label className="label-form">Dexterity</label>
+                        <input className="add-form" type="number" name="dexterity" onChange={handleDexterityChange} value={dexterity} />
+                    </div>
+                    <div className="form-container">
+                        <label className="label-form">Constitution</label>
+                        <input className="add-form" type="number" name="constitution" onChange={handleConstitutionChange} value={constitution} />
+                    </div>
+                    <div className="form-container">
+                        <label className="label-form">Intelligence</label>
+                        <input className="add-form" type="number" name="intelligence" onChange={handleIntelligenceChange} value={intelligence} />
+                    </div>
+                    <div className="form-container">
+                        <label className="label-form">Wisdom</label>
+                        <input className="add-form" type="number" name="wisdom" onChange={handleWisdomChange} value={wisdom} />
+                    </div>
+                    <div className="form-container">
+                        <label className="label-form">Charisma</label>
+                        <input className="add-form" type="number" name="charisma" onChange={handleCharismaChange} value={charisma} />
+                    </div>
+                    <div className="add-action">
+                        <button className="actionbutton" onClick={handlePrev}>Prev</button>
+                        <button className="actionbutton" type="submit">Next</button>
+                    </div>
                 </div>
-                <div>
-                    <span>Strength: </span>
-                    <input type="number" name="strength" onChange={handleStrengthChange} value={strength}/>
-                </div>
-                <div>
-                    <span>Dexterity: </span>
-                    <input type="number" name="dexterity" onChange={handleDexterityChange} value={dexterity} />
-                </div>
-                <div>
-                    <span>Constitution: </span>
-                    <input type="number" name="constitution" onChange={handleConstitutionChange} value={constitution} />
-                </div>
-                <div>
-                    <span>Intelligence: </span>
-                    <input type="number" name="intelligence" onChange={handleIntelligenceChange} value={intelligence} />
-                </div>
-                <div>
-                    <span>Wisdom: </span>
-                    <input type="number" name="wisdom" onChange={handleWisdomChange} value={wisdom} />
-                </div>
-                <div>
-                    <span>Charisma: </span>
-                    <input type="number" name="charisma" onChange={handleCharismaChange} value={charisma} />
-                </div>
-                <button onClick={handlePrev}>Prev</button>
-                <button type="submit">Next</button>
             </Form>
         </div>
         </>

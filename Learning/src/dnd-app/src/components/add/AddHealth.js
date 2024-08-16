@@ -20,16 +20,18 @@ function AddHealth(){
     return(
         <>
         <div>
-            <div>
-                {errors?.hp && <span>{errors.hp}</span>}
-            </div>
             <Form method="post">
-                <div>
-                    <span>Health (Roll 1d6): </span>
-                    <input type="number" name="health" onChange={handleHealthChange} value={health}/>
+                <div className="col-container form">
+                    <div className="errormessage" id="health-error" hidden={!errors?.hp}>{errors?.hp && errors.hp}</div>
+                    <div className="form-container">
+                        <label className="label-form">Health (Roll 1d6)</label>
+                        <input className="add-form" type="number" name="health" onChange={handleHealthChange} value={health}/>
+                    </div>
+                    <div className="add-action">
+                        <button className="actionbutton" onClick={handlePrev}>Prev</button>
+                        <button className="actionbutton" type="submit">Review</button>
+                    </div>
                 </div>
-                <button onClick={handlePrev}>Prev</button>
-                <button type="submit">Review</button>
             </Form>
         </div>
         </>

@@ -76,44 +76,49 @@ function EditHealth({health, handleHealth, closePopup}){
     };
     return (
         <>
-        <div className="health-popup">
+        <div className="health-popup popup">
             {error ?
                 <div className="health-error">{error.map((e, idx) =>
                     <div key={idx}>{e}</div>)}</div>
                 :
                 <></>}
-            <form>
-                <div>
-                    <span>Max HP: </span>
+            <div className="edit-health-popup">
+                <h2>Edit Health</h2>
+                <form>
+                    <div>
+                        <label>Max HP: </label>
                         <input type="number" id="health-text" value={maxHP} onChange={handleMaxHPChange}></input>
-                </div>
-                <div>
-                    <span>Cur HP: </span>
+                    </div>
+                    <div>
+                        <label>Cur HP: </label>
                         <input type="number" id="health-text" value={curHP} onChange={handleCurHPChange}></input>
-                </div>
-                <div>
-                    <span>Temp HP: </span>
+                    </div>
+                    <div>
+                        <label>Temp HP: </label>
                         <input type="number" id="health-text" value={tempHP} onChange={handleTempHPChange}></input>
-                </div>
-                <div>
-                    <span>Total Hit Dice: </span>
+                    </div>
+                    <div>
+                        <label>Total Hit Dice: </label>
                         <input type="number" id="health-text" value={totalHitDice} onChange={handleTotalHitDiceChange}></input>
-                </div>
-                <div>
-                    <span>Cur Hit Dice: </span>
+                    </div>
+                    <div>
+                        <label>Cur Hit Dice: </label>
                         <input type="number" id="health-text" value={curHitDice} onChange={handleCurHitDiceChange}></input>
-                </div>
-                <div>
-                    <span>Success Death Saves: </span>
+                    </div>
+                    <div>
+                        <label>Success Death Saves: </label>
                         <input type="number" id="health-text" value={successDeathSave} onChange={handleSuccessDeathSaveChange}></input>
-                </div>
-                <div>
-                    <span>Fail Death Saves: </span>
+                    </div>
+                    <div>
+                        <label>Fail Death Saves: </label>
                         <input type="number" id="health-text" value={failDeathSave} onChange={handleFailDeathSaveChange}></input>
-                </div>
-                <button type="submit" onClick={handleSubmit}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
-            </form>
+                    </div>
+                    <div className="health-button">
+                        <button type="submit" onClick={handleSubmit}>Save</button>
+                        <button onClick={handleCancel}>Cancel</button>
+                    </div>
+                </form>
+            </div>
         </div>
         </>
     )

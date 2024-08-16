@@ -1,11 +1,11 @@
 div.charinfo-container {
-    grid-column-start: 2;
-    grid-column-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
 
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: repeat(2, auto);
-    border: 3px solid rgb(98, 245, 123);
+    border: 3px solid rgb(70, 70, 70);
     text-align: right;
     margin: 10px;
 }
@@ -44,6 +44,12 @@ div.exp {
     grid-row-end: 3;
     padding: 5%;
 }
+.charinfo-container label{
+    display: block;
+    border-top: 3px solid rgb(70, 70, 70);
+}
+.charinfo-container span{
+}
 div.ci-popup {
     position: relative;
     z-index: 2;
@@ -54,4 +60,20 @@ div.ci-error {
     color: red;
     border: 3px red;
     margin: 10%;
+}
+
+/* =================ADD===================== */
+
+#add-user{
+    font-weight: 500;
+}
+#user-error{
+    color: rgb(145, 28, 28);
+    font-weight: 500;
+}
+#race-dropdown{
+    align-self: center;
+}
+#classType-dropdown {
+    align-self: center;
 }

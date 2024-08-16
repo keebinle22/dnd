@@ -31,53 +31,59 @@ function AddCharInfo(){
     return(
         <>
             <div>
-                {errors?.user && <span>{errors.user}</span>}
-                {errors?.race && <span>{errors.race}</span>}
-                {errors?.background && <span>{errors.background}</span>}
-                {errors?.classType && <span>{errors.classType}</span>}
-                {errors?.result && <span>{errors.result}</span>}
                 <Form method="put">
-                    <div>
-                        <span>Name: </span>
-                        <input className="create-input" type="text" name="userID" onChange={handleNameChange} value={name}/>
+                    <div className="col-container form">
+                        <div className="errormessage" id="user-error" hidden={!errors}>
+                            {errors?.user && errors.user}
+                            {errors?.race && errors.race}
+                            {errors?.background && errors.background}
+                            {errors?.classType && errors.classType}
+                            {errors?.result && errors.result}
+                        </div>
+                        <div className="form-container">
+                            <label className="label-form">Name</label>
+                            <input className="add-form" type="text" name="userID" onChange={handleNameChange} value={name}/>
+                        </div>
+                        <div className="form-container">
+                            <label className="label-form">Race</label>
+                            <select id="race-dropdown" name="race" defaultValue={race} onChange={handleRaceChange}>
+                                <option value="">--Select--</option>
+                                <option value="dragonborn">Dragonborn</option>
+                                <option value="dwarf">Dwarf</option>
+                                <option value="elf">Elf</option>
+                                <option value="halforc">Half-Orc</option>
+                                <option value="halfling">Halfling</option>
+                                <option value="human">Human</option>
+                                <option value="tiefling">Tiefling</option>
+                            </select>
+                        </div>
+                        <div className="form-container">
+                            <label className="label-form">Background</label>
+                            <input className="add-form" type="text" name="background" onChange={handleBackgroundChange} value={background}/>
+                        </div>
+                        <div className="form-container">
+                            <label className="label-form">Class</label>
+                            <select id="classType-dropdown" name="classType" defaultValue={classType} onChange={handleClassChange}>
+                                <option value="">--Select--</option>
+                                <option value="barbarian">Barbarian</option>
+                                <option value="bard">Bard</option>
+                                <option value="cleric">Cleric</option>
+                                <option value="druid">Druid</option>
+                                <option value="fighter">Fighter</option>
+                                <option value="monk">Monk</option>
+                                <option value="paladin">Paladin</option>
+                                <option value="ranger">Ranger</option>
+                                <option value="rogue">Rogue</option>
+                                <option value="sorcerer">Sorcerer</option>
+                                <option value="warlock">Warlock</option>
+                                <option value="wizard">Wizard</option>
+                            </select>
+                        </div>
+                        <div className="add-action">
+                            <button className="actionbutton" onClick={handlePrev}>Prev</button>
+                            <button className="actionbutton" type="submit">Next</button>
+                        </div>
                     </div>
-                    <div>
-                        <span>Race: </span>
-                        <select id="race" name="race" defaultValue={race} onChange={handleRaceChange}>
-                            <option value="">--Select--</option>
-                            <option value="dragonborn">Dragonborn</option>
-                            <option value="dwarf">Dwarf</option>
-                            <option value="elf">Elf</option>
-                            <option value="halforc">Half-Orc</option>
-                            <option value="halfling">Halfling</option>
-                            <option value="human">Human</option>
-                            <option value="tiefling">Tiefling</option>
-                        </select>
-                    </div>
-                    <div>
-                        <span>Background: </span>
-                        <input className="create-input" type="text" name="background" onChange={handleBackgroundChange} value={background}/>
-                    </div>
-                    <div>
-                        <span>Class: </span>
-                        <select id="classType" name="classType" defaultValue={classType} onChange={handleClassChange}>
-                            <option value="">--Select--</option>
-                            <option value="barbarian">Barbarian</option>
-                            <option value="bard">Bard</option>
-                            <option value="cleric">Cleric</option>
-                            <option value="druid">Druid</option>
-                            <option value="fighter">Fighter</option>
-                            <option value="monk">Monk</option>
-                            <option value="paladin">Paladin</option>
-                            <option value="ranger">Ranger</option>
-                            <option value="rogue">Rogue</option>
-                            <option value="sorcerer">Sorcerer</option>
-                            <option value="warlock">Warlock</option>
-                            <option value="wizard">Wizard</option>
-                        </select>
-                    </div>
-                    <button onClick={handlePrev}>Prev</button>
-                    <button type="submit">Next</button>
                 </Form>
             </div>
             </>
