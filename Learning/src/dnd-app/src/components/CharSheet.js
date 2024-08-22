@@ -12,7 +12,7 @@ function CharSheet(){
         <>
         <div className="header">
             <div id='actionbutton'>
-                <button onClick={() => navigate('/home')}>Return</button>
+                <button onClick={() => navigate(-1)}>Return</button>
             </div>
             <h1 id="username">{userID}</h1>
             <Charinfo/>

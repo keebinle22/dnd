@@ -5,6 +5,7 @@ import com.main.domain.Result;
 import com.main.model.BattleStat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class BattleStatController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('DM', 'SUPER')")
     public ResponseEntity<List<BattleStat>> getAllBS(){
         return ResponseEntity.ok(service.getAllBS());
     }

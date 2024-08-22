@@ -17,7 +17,8 @@ function BattleStat(){
         const init = {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             }
         };
         fetch(`http://localhost:8080/battlestat/${userID}`, init)
@@ -91,13 +92,13 @@ export async function addBS(bs){
     const start = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         },
         body: JSON.stringify(bs)
     };
     return fetch("http://localhost:8080/battlestat", start)
         .then(response => {
-            console.log(response.status);
             switch (response.status) {
                 case 201:
                     return null;

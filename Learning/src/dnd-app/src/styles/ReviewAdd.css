@@ -1,0 +1,35 @@
+.review{
+    width: 30%;
+    background-color: rgb(204, 204, 204);
+    border-radius: 10px;
+    border: 3px solid rgb(70,70,70);
+}
+.reviewchar-container{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 10px;
+    margin-inline: 10%;
+    font-size: 20px;
+}
+.reviewas-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 10px;
+    margin-inline: 10%;
+    font-size: 20px;
+}
+.reviewhealth-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 10px;
+    margin-inline: 10%;
+    font-size: 20px;
+}
+.section{
+    font-weight: 500;
+    font-size: 2rem;
+    text-decoration: underline;
+}

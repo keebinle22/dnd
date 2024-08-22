@@ -1,0 +1,27 @@
+@url = http://localhost:8080
+POST {{url}}/auth/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "asdf",
+    "password": "adsf",
+    "confirmation": "asdf",
+    "role": "DM"
+}
+###
+POST {{url}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{    
+    "username": "tester",
+    "password": "test"
+}
+
+@token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJpYXQiOjE3MjQyMDMyOTgsImV4cCI6MTcyNDIwNjg5OH0.lMgBfRYFN0d7n35-eSrug5hu2Uax4HLp1gVDn9NFAfLtRZWVrZFkDUTVJvb6xjsd_86m_O5R0gKaDBAXJ87c_w
+###
+GET {{url}}/users/me HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+###
+GET {{url}}/users HTTP/1.1
+Authorization: Bearer {{token}}

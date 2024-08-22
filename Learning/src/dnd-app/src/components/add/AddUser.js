@@ -10,7 +10,7 @@ function AddUser(){
     }
     const handleCancel = (evt) => {
         evt.preventDefault();
-        navigate("/charinfo");
+        navigate("/user/charinfo");
     }
     return(
         <>
@@ -42,7 +42,8 @@ export async function newChar(userID){
     const init = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         },
         body: JSON.stringify(user)
     };
@@ -79,6 +80,6 @@ export async function action({request}){
         errors.result = result;
         return errors
     }
-    return redirect("/createchar/" + updates.userID);
+    return redirect("/user/createchar/" + updates.userID);
 
 }

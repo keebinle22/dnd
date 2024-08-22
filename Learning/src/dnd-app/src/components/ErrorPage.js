@@ -8,8 +8,8 @@ function ErrorPage(){
         <div>
             <h1>Error</h1>
             <p>
-                <i>{error.statusText || error.message}</i>
-                <i>{error.data}</i>
+                {/* <i>{error.statusText || error.message}</i>
+                <i>{error.data}</i> */}
             </p>
         </div>
         </>

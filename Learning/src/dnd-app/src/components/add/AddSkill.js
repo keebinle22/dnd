@@ -125,7 +125,7 @@ export async function action({request, params}){
     if (result){
         errors.push(result);
     }
-    return redirect("/createchar/" + params.userID + "/health");
+    return redirect("/user/createchar/" + params.userID + "/health");
 }
 
 export async function loader({params}){
@@ -136,7 +136,8 @@ export async function updateSkill(userID, skill){
     const init = {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         },
         body: JSON.stringify({userID: userID, ...skill})
     };

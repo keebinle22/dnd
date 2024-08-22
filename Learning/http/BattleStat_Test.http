@@ -1,6 +1,8 @@
 @url = http://localhost:8080/battlestat
-
+@token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJpYXQiOjE3MjQwNDAwNTAsImV4cCI6MTcyNDA0MDA1MH0.F_9V4aLfy-Nk_Z17ZXcp18EUtbNZh97jQTpb3u9c19A3jMu8ZFDNclAay7-Qw9Hxtr77QhXa6ODzCalJnGCd4g
 GET {{url}} HTTP/1.1
+Authorization: Bearer {{token}}
+Accept: application/json
 ###
 GET {{url}}/test HTTP/1.1
 ###

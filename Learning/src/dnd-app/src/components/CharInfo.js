@@ -1,20 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditCharinfo from "./edit/EditCharInfo";
+import { url } from "../App";
 
 function Charinfo(){
-
     const [charInfo, setCharInfo] = useState([]);
     const { id: userID } = useParams();
     const getCharInfo = () => {
         const init = {
             method: "GET",
             headers: {
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 "Accept": "application/json"
             }
         };
-        fetch(`http://localhost:8080/charinfo/${userID}`, init)
+        fetch(`${url}/charinfo/${userID}`, init)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
@@ -70,7 +71,8 @@ export async function getChar(userID){
     const init = {
         method: "GET",
         headers: {
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
     const result = await fetch(`http://localhost:8080/charinfo/${userID}`, init)

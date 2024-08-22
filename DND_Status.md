@@ -1,19 +1,25 @@
-# DND App v.1.5.0
+# DND App v.1.6.0
 Created by Kevin Le
 ## About
 Dungeon and Dragon (DND) is a role playing/choose your adventure game where players go on grand adventures through a fantasy world. The main narrator is called the 'Dungeon Master' (DM) and is responsible for defining the rules of the game and the world, guiding the adventures throughout the mystical land, and most importantly, creating a story that will hook players for hours on end. The players will each have their own characters with different background, abilities, and skills. All of these informations have been recorded on sheets of papers. This is will this app comes into play. The application will digitally track each character sheets and allow each player to view and update their sheet throughout the game. Additionally, the DM will be able to view all player's character sheets in parallel when creating the next adventure.
 
 ## Change Logs
+### 8/22/24
+- The Security Update.
+- Implemented security roles for DM, Player, and Super.
+    - App is now a JWT token based session. Each session will last 1 hour max.
+    - Currently, all roles have the same security priviledge.
+    - Added Sign up and Login feature for frontend and backend.
 ### 8/15/24
-- The Skin Update
-- Implemented basic CSS
-    - Add review page and edit forms has no CSS
+- The Skin Update.
+- Implemented basic CSS.
+    - Add review page and edit forms has no CSS.
 ### 8/13/24
-- Added client side form validation for Char Info and Health
-- Added character sheet deletion
-    - Modified backend where `CharInfoController` will delete all dependant tables
+- Added client side form validation for Char Info and Health.
+- Added character sheet deletion.
+    - Modified backend where `CharInfoController` will delete all dependant tables.
 ### 8/12/24
-- Added client side form validation for Add User and Ability Scores
+- Added client side form validation for Add User and Ability Scores.
     - Utilized `useActionData` for validations.
     - Yet to implement validation for Char Info and Health or server side form validation.
 ### 8/11/24
@@ -58,7 +64,7 @@ Dungeon and Dragon (DND) is a role playing/choose your adventure game where play
 - [ ] Add text area for languages and actions
 - [ ] Add senses and weapons/cantrips
 - [ ] Add security roles (DM/Players)
-    - [ ] DM can view all player's char sheet
+    - [ x ] DM can view all player's char sheet
     - [ ] Players can only access their char sheet
 - [ ] Add inventory
 - [ ] Add features and traitrs

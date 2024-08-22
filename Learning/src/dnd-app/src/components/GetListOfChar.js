@@ -1,41 +1,21 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useRef, useState } from "react";
+import { Form, redirect, useActionData, useLoaderData, useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
+import { curToken } from "../App";
 
 function GetListOfChar(){
-
-    const [charInfos, setCharInfos] = useState([]);
-    const navigate = useNavigate();
-    const getCharInfo = () => {
-        const init = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-        fetch("http://localhost:8080/charinfo", init)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                return Promise.reject("Something went wrong here");
-            })
-            .then(body => {
-                setCharInfos(body)
-            })
-            .catch(err => console.error(err));
-        }
-    useEffect(() => getCharInfo, [charInfos]);
-
-    const handleDelete = (userID) => {
-        deleteChar(userID);
-    }
+    const chars = useLoaderData();
     return (
         <>
         <div className="col-container">
             <div className="header-text">Character Selection</div>
             <div id="selection-action">
-                <button className="actionbutton" onClick={() => navigate("/createchar")}>Create</button>
-                <button className="actionbutton" onClick={() => navigate("/home")}>Home</button>
+                <Form action="/user/createchar">
+                    <button className="actionbutton">Create</button>
+                </Form>
+                <Form action="/user/home">
+                    <button className="actionbutton">Home</button>
+                </Form>
             </div>
             <table id="char-table">
                 <thead>
@@ -47,16 +27,20 @@ function GetListOfChar(){
                     </tr>
                 </thead>
                 <tbody>
-                    {charInfos.map((c, i) => (
+                    {chars.map((c, i) => (
                         c.userID !== null ? 
                             <tr key={i}>
-                            <td className="name">{c.userID}</td>
-                            <td className="level">Level</td>
-                            <td className="class">Class</td>
-                            <td className="action">
-                                <button className="actionbutton" onClick={() => navigate(`/char/${c.userID}`)}>View</button>
-                                <button className="actionbutton" onClick={() => handleDelete(c.userID)}>Delete</button>
-                            </td>
+                                <td className="name" >{c.userID}</td>
+                                <td className="level">{c.level}</td>
+                                <td className="class">{c.classType}</td>
+                                <td className="action">
+                                <Form action={`/user/char/${c.userID}`}>
+                                    <button className="actionbutton">View</button>
+                                </Form>
+                                <Form method="delete">
+                                    <button className="actionbutton" name="name" value={c.userID}>Delete</button>
+                                </Form>
+                                </td>
                             </tr> 
                             : 
                             <></>
@@ -73,10 +57,11 @@ export async function deleteChar(userID){
     const init = {
         method: "DELETE",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
-    fetch(`http://localhost:8080/charinfo/delete/${userID}`, init)
+    await fetch(`http://localhost:8080/charinfo/delete/${userID}`, init)
         .then(response => {
             if (response.status === 204) {
                 return null;
@@ -84,4 +69,37 @@ export async function deleteChar(userID){
             return Promise.reject("Something went wrong here");
         })
         .catch(err => console.error(err));
+}
+
+export function getAllChar(){
+    const init = {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            "Accept": "application/json"
+        }
+    };
+    return fetch("http://localhost:8080/charinfo", init)
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            return Promise.reject("Something went wrong here");
+        })
+        .catch(err => console.error(err));
+
+
+}
+
+export async function getAllCharLoader({request}){
+    const allChar = await getAllChar();
+    return allChar;
+}
+
+export async function getAllCharAction({request}){
+    let formData = await request.formData();
+    console.log(Object.fromEntries(formData))
+    const userID = formData.get("name");
+    await deleteChar(userID);
+    return null;
 }

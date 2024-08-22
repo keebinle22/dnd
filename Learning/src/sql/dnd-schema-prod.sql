@@ -3,6 +3,23 @@ create database dnd;
 use dnd;
 
 -- create table and relationships
+
+create table dnd_role(
+role_id int primary key not null auto_increment,
+role_type varchar(10) not null,
+role_description longtext not null
+);
+
+create table dnd_user(
+id int primary key not null auto_increment,
+username varchar(100) not null,
+pw varchar(250) not null,
+role_id int not null,
+constraint fk_user_role_id
+	foreign key (role_id) 
+	references dnd_role(role_id)
+);
+
 create table charInfo(
 userID varchar(100) primary key not null,
 classType varchar(25) not null,
@@ -88,4 +105,9 @@ insert into skills (acrobatics, animalHandling, arcana, athletics, deception, hi
 (1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 insert into battle_stat (bsID, initiative, armor, defense, inspiration, profBonus, asSaveDC, speed, userID) value (1,1,1,null,1,1,1,null,'test');
 insert into health (healthID, maxHP, curHP, tempHP, totalHitDice, curHitDice, successDeathSaves, failDeathSaves, userID) value (1,1,1,1,1,1,1,1,'test');
-
+-- insert into dnd_role (dnd_type, dnd_description) values 
+-- ("DM", "The Story Teller"),
+-- ("PLAYER", "The Pawns"),
+-- ("SUPER", "A Literal God")
+select * from dnd_role;
+select * from dnd_user inner join dnd_role on dnd_user.role_id = dnd_role.role_id where dnd_user.username = "tester"

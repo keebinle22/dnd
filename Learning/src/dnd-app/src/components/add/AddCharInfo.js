@@ -26,7 +26,7 @@ function AddCharInfo(){
     }
     const handlePrev = (evt) => {
         evt.preventDefault();
-        navigate("/home");
+        navigate("/user/home");
     }
     return(
         <>
@@ -115,7 +115,7 @@ export async function action({request, params}) {
         errors.result = result;
         return errors;
     }
-    return redirect("/createchar/" + params.userID +"/scores");
+    return redirect("/user/createchar/" + params.userID +"/scores");
 }
 
 export async function loader({params}){
@@ -133,7 +133,8 @@ export async function updateChar(userID, charInfo) {
     const init = {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         },
         body: JSON.stringify(char)
     };

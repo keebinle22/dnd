@@ -57,7 +57,7 @@ export async function action({ request, params }) {
         errors.result = result;
         return errors;
     }
-    return redirect("/createchar/" + params.userID + "/review");
+    return redirect("/user/createchar/" + params.userID + "/review");
 }
 
 export async function loader({ params }) {
@@ -69,7 +69,8 @@ export async function updateHealth(userID, hp) {
     const start = {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         },
         body: JSON.stringify({
             maxHP: hp.health,

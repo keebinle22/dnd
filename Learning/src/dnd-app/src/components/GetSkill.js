@@ -29,7 +29,8 @@ function GetSkill(){
         const init = {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             }
         };
         fetch(`http://localhost:8080/api/skill/${asID}`, init)
@@ -51,7 +52,8 @@ function GetSkill(){
         const init = {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             }
         };
         fetch(`http://localhost:8080/abilityscore/user/${userID}`, init)
@@ -301,7 +303,8 @@ export function getAS(userID){
     const init = {
         method: "GET",
         headers: {
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
     const result = fetch(`http://localhost:8080/abilityscore/user/${userID}`, init)

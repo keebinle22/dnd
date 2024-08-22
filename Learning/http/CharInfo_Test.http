@@ -1,6 +1,7 @@
 @url = http://localhost:8080/charinfo
-
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJpYXQiOjE3MjQyNzU1OTMsImV4cCI6MTcyNDI3OTE5M30.uploBme4pDsEluc_ED5-uE6NjN-byCxeJo6Z6b92Ek2u6yc98ZpDmf_J3lQzNNM-qQPEdszpOU8QPtvjCuKBUg
 GET {{url}} HTTP/1.1
+Authorization: Bearer {{token}}
 ###
 GET {{url}}/mm HTTP/1.1
 ###

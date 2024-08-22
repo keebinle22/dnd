@@ -19,7 +19,7 @@ function ReviewAdd(){
         const newHealth = {
             health: user.maxHP + modifier(user.constitution)
         }
-        await updateHealth(userID, newHealth);
+        const healthResult = await updateHealth(userID, newHealth);
         const bs = {
             bsID: 0,
             initiative: 2,
@@ -31,21 +31,21 @@ function ReviewAdd(){
             speed: "30 ft", //based on class type
             userID: userID
         }
-        await addBS(bs);
+        const bsResult = await addBS(bs);
     }
 
     return(
         <>
-        <div>
+        <div className="col-container review">
             <div className="reviewchar-container">
-                <h3>Info</h3>
+                <span className="section">Info</span>
                 <span>Name: {user.userID}</span>
+                <span>Class: {user.classType}</span>
                 <span>Race: {user.race}</span>
                 <span>Background: {user.background}</span>
-                <span>Class: {user.classType}</span>
             </div>
             <div className="reviewas-container">
-                <h3>Ability Score</h3>
+                <span className="section">Ability Score</span>
                 <span>Strength: {user.strength}</span>
                 <span>Dexterity: {user.dexterity}</span>
                 <span>Constitution: {user.constitution}</span>
@@ -54,13 +54,15 @@ function ReviewAdd(){
                 <span>Charisma: {user.charisma}</span>
             </div>
             <div className="reviewhealth-container">
-                <h3>Health</h3>
+                <span className="section">Health</span>
                 <span>Max HP: {user.maxHP + modifier(user.constitution)}</span>
             </div>
-            <button onClick={handlePrev}>Prev</button>
-            <Form method="post">
-                <button type="submit" onClick={handleUpdateTables}>Done</button>
-            </Form>
+            <div className="add-action">
+                <button className="actionbutton" onClick={handlePrev}>Prev</button>
+                <Form method="post">
+                    <button className="actionbutton" type="submit" onClick={handleUpdateTables}>Done</button>
+                </Form>
+            </div>
         </div>
         </>
     )
@@ -77,7 +79,7 @@ export async function loader({params}){
 export async function action({request, params}){
     // const result = await addBS(params.userID);
     // if (result === null){
-        return redirect("/charinfo");
+        return redirect("/user/charinfo");
     // }
     // return null
 }

@@ -12,7 +12,8 @@ function Health(){
         const init = {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             }
         };
         fetch(`http://localhost:8080/health/${userID}`, init)
@@ -83,7 +84,8 @@ export async function getHealth(userID){
     const init = {
         method: "GET",
         headers: {
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
     const result = await fetch(`http://localhost:8080/health/${userID}`, init)
