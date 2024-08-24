@@ -1,41 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditHealth from "./edit/EditHealth";
 
 function Health(){
-    const [health, setHealth] = useState();
+    const health = useLoaderData().health;
     const [error, setError] = useState(null);
     const {id: userID} = useParams();
     const ref = useRef();
-    const getHealth = () => {
-        const init = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
-            }
-        };
-        fetch(`http://localhost:8080/health/${userID}`, init)
-        .then(response => {
-            if (response.status === 200){
-                return response.json();
-            }
-            return Promise.reject("Something went wrong here.");
-        })
-        .then(body => {
-            setHealth(body);
-        })
-        .catch(err => {
-            setError(err);
-        });
-    };
-    useEffect(() => getHealth, []);
+
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
-    const handleHealth = (val) => {
-        setHealth(val);
-    }
     return(
         <>
         {error ? (
@@ -68,7 +43,7 @@ function Health(){
                     </div>
                     {/* <button onClick={openPopup}>Edit</button> */}
                     <Popup ref={ref} closeOnDocumentClick={false} modal>
-                        <EditHealth health={health} handleHealth={handleHealth} closePopup={closePopup}/>
+                        {/* <EditHealth health={health} handleHealth={handleHealth} closePopup={closePopup}/> */}
                     </Popup>
                 </div>
                 </>
@@ -88,7 +63,7 @@ export async function getHealth(userID){
             "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
-    const result = await fetch(`http://localhost:8080/health/${userID}`, init)
+    const result = await fetch(`${process.env.REACT_APP_URL}/health/${userID}`, init)
         .then(response => {
             switch (response.status) {
                 case 200:

@@ -9,7 +9,7 @@ import './styles/SignUp.css';
 import React, { useCallback, useMemo, useState } from 'react';
 import { BrowserRouter, createBrowserRouter, createRoutesFromElements, defer, Outlet, Route, RouterProvider, Routes, useNavigate} from 'react-router-dom';
 import GetSkill from './components/GetSkill';
-import CharSheet from './components/CharSheet';
+import CharSheet, { charSheetLoader } from './components/CharSheet';
 import GetListOfChar, { getAllCharAction, getAllCharLoader } from './components/GetListOfChar';
 import CreateChar from './components/CreateChar';
 import AddCharInfo, { action as addCharAction, loader as addCharLoader } from './components/add/AddCharInfo';
@@ -83,7 +83,7 @@ function App() {
         <Route path="/user" element={<PrivateRoute/>}>
           <Route path="home" element={<Home/>}/>
           <Route path="charinfo" element={<GetListOfChar/>} action={getAllCharAction} loader={ getAllCharLoader} errorElement={<ErrorPage />}/>
-          <Route path="char/:id" element={<CharSheet/>}/>
+          <Route path="char/:id" element={<CharSheet/>} loader={charSheetLoader}/>
           <Route path="createchar" element={<CreateChar/>}>
             <Route path="user" element={<AddUser/>} action={addUserAction}/>
             <Route path=":userID" element={<AddCharInfo/>} loader={addCharLoader} action={addCharAction}/>
@@ -135,7 +135,7 @@ export function Credit(){
     <>
     <footer>
       <div>Made by Kevin Le</div>
-      <div>v1.6.0</div>
+      <div>v1.6.1</div>
     </footer>
     </>
   )

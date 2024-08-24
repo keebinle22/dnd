@@ -1,36 +1,13 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditCharinfo from "./edit/EditCharInfo";
 import { url } from "../App";
 
 function Charinfo(){
-    const [charInfo, setCharInfo] = useState([]);
+    const charInfo = useLoaderData().charInfo;
     const { id: userID } = useParams();
-    const getCharInfo = () => {
-        const init = {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-                "Accept": "application/json"
-            }
-        };
-        fetch(`${url}/charinfo/${userID}`, init)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                return Promise.reject("Something went wrong here");
-            })
-            .then(body => {
-                setCharInfo(body)
-            })
-            .catch(err => console.error(err));
-    }
-    useEffect(() => getCharInfo, []);
-    const handleCI = (val) => {
-        setCharInfo(val);
-    }
+
     const ref = useRef();
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
@@ -59,7 +36,7 @@ function Charinfo(){
                 <label>Experience</label>
             </div>
             <Popup ref={ref} closeOnDocumentClick={false} modal>
-                <EditCharinfo ci={charInfo} handleCI={handleCI} closePopup={closePopup}/>
+                {/* <EditCharinfo ci={charInfo} handleCI={handleCI} closePopup={closePopup}/> */}
             </Popup>
         </div>
         </>
@@ -75,7 +52,7 @@ export async function getChar(userID){
             "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
-    const result = await fetch(`http://localhost:8080/charinfo/${userID}`, init)
+    const result = await fetch(`${process.env.REACT_APP_URL}/charinfo/${userID}`, init)
         .then(response => {
             switch (response.status){
                 case 200:

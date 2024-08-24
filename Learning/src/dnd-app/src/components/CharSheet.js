@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import GetSkill from "./GetSkill";
-import Charinfo from "./CharInfo";
-import BattleStat from "./BattleStat";
-import Health from "./Health";
+import GetSkill, { getAS, getSkill } from "./GetSkill";
+import Charinfo, { getChar } from "./CharInfo";
+import BattleStat, { getBS } from "./BattleStat";
+import Health, { getHealth } from "./Health";
 
 function CharSheet(){
     const navigate = useNavigate();
@@ -26,3 +26,19 @@ function CharSheet(){
     )
 }
 export default CharSheet;
+
+export async function charSheetLoader({params}){
+    const as = await getAS(params.id);
+    const skill = await getSkill(as.asID);
+    const health = await getHealth(params.id);
+    const bs = await getBS(params.id);
+    const charInfo = await getChar(params.id);
+    console.log(charInfo);
+    console.log({as: as, skill: skill, health: health, bs: bs, charInfo: charInfo})
+    return { as: as, skill: skill, health: health, bs: bs, charInfo: charInfo }
+}
+
+export async function charSheetAction({request}){
+
+    return null;
+}

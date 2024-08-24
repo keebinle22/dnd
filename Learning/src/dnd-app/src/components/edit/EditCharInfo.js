@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Form, useParams } from "react-router-dom";
 
 function EditCharinfo({ci, handleCI, closePopup}){
     const { id: userID } = useParams();
@@ -38,7 +38,8 @@ function EditCharinfo({ci, handleCI, closePopup}){
         const start = {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             },
             body: JSON.stringify(updateCI)
         };
@@ -72,30 +73,30 @@ function EditCharinfo({ci, handleCI, closePopup}){
                 <div key={idx}>{e}</div>)}</div> 
             :
                 <></>}
-            <form>
+            <Form method="post">
                 <div>
                     <span>Class Type: </span>
-                    <input type="text" id="ci-text" value={classType} onChange={handleClassTypeChange}/>
+                    <input type="text" id="ci-text" name="classType" value={classType} onChange={handleClassTypeChange}/>
                 </div>
                 <div>
                     <span>Level: </span>
-                    <input type="number" id="ci-text" value={level} onChange={handleLevelChange} />
+                    <input type="number" id="ci-text" name="level" value={level} onChange={handleLevelChange} />
                 </div>
                 <div>
                     <span>Race: </span>
-                    <input type="text" id="ci-text" value={race} onChange={handleRaceChange} />
+                    <input type="text" id="ci-text" name="race" value={race} onChange={handleRaceChange} />
                 </div>
                 <div>
                     <span>Background: </span>
-                    <input type="text" id="ci-text" value={background} onChange={handleBackgroundChange} />
+                    <input type="text" id="ci-text" name="background" value={background} onChange={handleBackgroundChange} />
                 </div>
                 <div>
                     <span>Experience: </span>
-                    <input type="number" id="ci-text" value={exp} onChange={handleExpChange} />
+                    <input type="number" id="ci-text" name="exp" value={exp} onChange={handleExpChange} />
                 </div>
-                <button type="submit" onClick={handleSubmit}>Save</button>
+                <button type="submit" name="submit" value="charinfo">Save</button>
                 <button onClick={handleCancel}>Cancel</button>
-            </form>
+            </Form>
         </div>
         </>
     )

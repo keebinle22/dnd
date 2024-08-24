@@ -1,81 +1,25 @@
 import {useEffect, useRef, useState} from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditSkill from "./edit/EditSkill";
 
 function GetSkill(){
-    const [as, setAS] = useState();
+
+    const as = useLoaderData().as;
+    const skill = useLoaderData().skill;
     const { id: userID } = useParams();
     const ref = useRef();
-    const [strength, setStrength] = useState({});
-    const [dexterity, setDexterity] = useState({});
-    const [constitution, setConstitution] = useState({});
-    const [intelligence, setIntelligence] = useState({});
-    const [wisdom, setWisdom] = useState({});
-    const [charisma, setCharisma] = useState({});
-    const [skill, setSkill] = useState();
+    const [strength, setStrength] = useState({score: as.strength, mod: Modifier(as.strength)});
+    const [dexterity, setDexterity] = useState({score: as.dexterity, mod: Modifier(as.dexterity)});
+    const [constitution, setConstitution] = useState({score: as.constitution, mod: Modifier(as.constitution)});
+    const [intelligence, setIntelligence] = useState({score: as.intelligence, mod: Modifier(as.intelligence)});
+    const [wisdom, setWisdom] = useState({score: as.wisdom, mod: Modifier(as.wisdom)});
+    const [charisma, setCharisma] = useState({score: as.charisma, mod: Modifier(as.charisma)});
     const [error, setError] = useState(null);
 
-    const setScore = (body) => {
-        setAS(body);
-        setStrength({ score: body.strength, mod: Modifier(body.strength) });
-        setDexterity({ score: body.dexterity, mod: Modifier(body.dexterity) });
-        setConstitution({ score: body.constitution, mod: Modifier(body.constitution) });
-        setIntelligence({ score: body.intelligence, mod: Modifier(body.intelligence) });
-        setWisdom({ score: body.wisdom, mod: Modifier(body.wisdom) });
-        setCharisma({ score: body.charisma, mod: Modifier(body.charisma) });
-    }
-    const getSkill = (asID) => {
-        const init = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
-            }
-        };
-        fetch(`http://localhost:8080/api/skill/${asID}`, init)
-        .then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            return Promise.reject("Something went wrong here");
-        })
-        .then(body => {
-            setSkill(body)
-        })
-        .catch(err => {
-            setError(err);
-            console.error(err);
-        });
-    };
-    const getAS = () => {
-        const init = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
-            }
-        };
-        fetch(`http://localhost:8080/abilityscore/user/${userID}`, init)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                return Promise.reject("Something went wrong here");
-            })
-            .then(body => {
-                setScore(body);
-                getSkill(body.asID);
-            })
-            .catch(err => {
-                setError(err);
-                console.error(err)
-            });
-    };
+    
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
-    // useEffect(() => getSkill, []);
-    useEffect(() => getAS, []);
     const pos = "+";
     return(
         <>
@@ -85,7 +29,7 @@ function GetSkill(){
             as&&skill ? (
             <>
             <div className="left-container">
-            <button onClick={openPopup}>Edit</button>
+            {/* <button onClick={openPopup}>Edit</button> */}
                 <div className="score-container">
                     <div className="as-container">
                         <div className="score-type">Strength</div>
@@ -281,7 +225,7 @@ function GetSkill(){
                     <label id="container-label">Skills</label>
                 </div>
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
-                    <EditSkill as={as} setScore={setScore} closePopup={closePopup} getSkill={getSkill}/>
+                    {/* <EditSkill as={as} setScore={setScore} closePopup={closePopup} getSkill={getSkill}/> */}
                 </Popup>
             </div>
             </>
@@ -307,7 +251,7 @@ export function getAS(userID){
             "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     };
-    const result = fetch(`http://localhost:8080/abilityscore/user/${userID}`, init)
+    const result = fetch(`${process.env.REACT_APP_URL}/abilityscore/user/${userID}`, init)
         .then(response => {
             if (response.status === 200) {
                 return response.json();
@@ -318,5 +262,27 @@ export function getAS(userID){
             return body;
         })
         .catch(err => console.error(err));
+    return result;
+};
+
+export async function getSkill(asID){
+    const init = {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
+        }
+    };
+    const result = await fetch(`${process.env.REACT_APP_URL}/api/skill/${asID}`, init)
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            return Promise.reject("Something went wrong here");
+        })
+
+        .catch(err => {
+            console.error(err);
+        });
     return result;
 };

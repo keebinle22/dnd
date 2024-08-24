@@ -1,42 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditBS from "./edit/EditBS";
 
 function BattleStat(){
     const [error, setError] = useState(null);
-    const [bs, setBS] = useState();
+    const bs = useLoaderData().bs;
     const {id: userID} = useParams();
     const ref = useRef();
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
-    const handleBS = (bs) => {
-        setBS(bs);
-    }
-    const getBS = () => {
-        const init = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
-            }
-        };
-        fetch(`http://localhost:8080/battlestat/${userID}`, init)
-        .then(response => {
-            if (response.status === 200){
-                return response.json();
-            }
-            return Promise.reject("Something went wrong here.");
-        })
-        .then(body => {
-            setBS(body);
-            console.log(body);
-        })
-        .catch(err => {
-            setError(err);
-        })
-    };
-    useEffect(() => getBS, []);
     return(
         <>
         {error ? (
@@ -76,7 +49,7 @@ function BattleStat(){
                     <span>{bs.speed}</span>
                 </div>
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
-                    <EditBS bs={bs} editBS={handleBS} closePop={closePopup} />
+                    {/* <EditBS bs={bs} editBS={handleBS} closePop={closePopup} /> */}
                 </Popup>
             </div>
             </>
@@ -97,7 +70,7 @@ export async function addBS(bs){
         },
         body: JSON.stringify(bs)
     };
-    return fetch("http://localhost:8080/battlestat", start)
+    return fetch(`${process.env.REACT_APP_URL}/battlestat`, start)
         .then(response => {
             switch (response.status) {
                 case 201:
@@ -112,3 +85,23 @@ export async function addBS(bs){
         })
         .catch(err => console.error(err));
 }
+
+export async function getBS(userID){
+    const init = {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
+        }
+    };
+    const result = await fetch(`${process.env.REACT_APP_URL}/battlestat/${userID}`, init)
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            return Promise.reject("Something went wrong here.");
+        })
+
+        .catch(err => {console.err(err)})
+    return result;
+};
