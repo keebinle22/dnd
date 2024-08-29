@@ -1,0 +1,16 @@
+div.header {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+    width: 80%;
+    margin: auto;
+}
+#charsheet-btn{
+    position:absolute;
+    bottom: 0;
+    display: flex;
+    margin: 10px;
+    /* align-items: center; */
+    justify-content: center;
+}
+

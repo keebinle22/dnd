@@ -1,10 +1,12 @@
-import { useContext, useRef, useState } from "react";
-import { Form, redirect, useActionData, useLoaderData, useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { Form, useLoaderData } from "react-router-dom";
 import Popup from "reactjs-popup";
-import { curToken } from "../App";
 
 function GetListOfChar(){
     const chars = useLoaderData();
+    const ref = useRef();
+    const openPopup = () => ref.current.open();
+    const closePopup = () => ref.current.close();
     return (
         <>
         <div className="col-container">
@@ -16,6 +18,10 @@ function GetListOfChar(){
                 <Form action="/user/home">
                     <button className="actionbutton">Home</button>
                 </Form>
+                <button className="actionbutton" onClick={openPopup}>Delete All</button>
+                <Popup ref={ref} closeOnDocumentClick={false} modal>
+                    <DeleteConfirmation closePopup={closePopup} />
+                </Popup>
             </div>
             <table id="char-table">
                 <thead>
@@ -87,8 +93,6 @@ export function getAllChar(){
             return Promise.reject("Something went wrong here");
         })
         .catch(err => console.error(err));
-
-
 }
 
 export async function getAllCharLoader({request}){
@@ -98,8 +102,45 @@ export async function getAllCharLoader({request}){
 
 export async function getAllCharAction({request}){
     let formData = await request.formData();
-    console.log(Object.fromEntries(formData))
-    const userID = formData.get("name");
-    await deleteChar(userID);
+    const btn = formData.get("name");
+    await deleteChar(btn);
     return null;
+}
+
+function DeleteConfirmation({closePopup}){
+    const handleDelete = () => {
+        deleteAll();
+        closePopup();
+    }
+    return(
+        <>
+        <div>
+            <h2>Delete Confirmation</h2>
+            <div>Are you sure you want to delete ALL?</div>
+            <div>
+                <button className="actionbutton" onClick={closePopup}>Cancel</button>
+                <button className="actionbutton" onClick={handleDelete} name="name" value="deleteall">I am sure</button>
+            </div>
+        </div>
+        </>
+    )
+}
+
+async function deleteAll(){
+    const init = {
+        method: "DELETE",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
+        }
+    };
+    const result = fetch(`${process.env.REACT_APP_URL}/charinfo/delete/all`, init)
+        .then(response => {
+            if (response.status === 200) {
+                return null;
+            }
+            return Promise.reject("Something went wrong here");
+        })
+        .catch(err => console.error(err));
+    return result;
 }

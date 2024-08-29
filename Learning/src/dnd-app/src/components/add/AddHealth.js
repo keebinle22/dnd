@@ -83,7 +83,7 @@ export async function updateHealth(userID, hp) {
             userID: userID
         })
     };
-    const result = fetch(`http://localhost:8080/health/update/${userID}`, start)
+    const result = fetch(`${process.env.REACT_APP_URL}/health/update/${userID}`, start)
         .then(response => {
             switch (response.status) {
                 case 204:

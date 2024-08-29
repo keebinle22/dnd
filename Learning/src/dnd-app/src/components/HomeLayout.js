@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { Credit } from "../App";
 import { useAuth } from "./auth/AuthProvider";
 
 export const HomeLayout = () => {
@@ -10,7 +9,6 @@ export const HomeLayout = () => {
     return (
         <>
         <Outlet/>
-        <Credit/>
         </>
     )
 }

@@ -49,11 +49,13 @@ function EditBS({ bs, editBS, closePop }){
         const start = {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
+
             },
             body: JSON.stringify(updateBS)
         };
-        fetch(`http://localhost:8080/battlestat/update/${userID}`, start)
+        fetch(`${process.env.REACT_APP_URL}/battlestat/update/${userID}`, start)
             .then(response => {
                 switch (response.status) {
                     case 204:
@@ -64,6 +66,8 @@ function EditBS({ bs, editBS, closePop }){
                         response.json()
                         .then((result) => { console.log(result); setError(result) })
                         return null;
+                    case 403:
+                        setError(["Invalid Login"])
                     default:
                         return Promise.reject("Something went wrong here");
                 };
@@ -71,48 +75,54 @@ function EditBS({ bs, editBS, closePop }){
             .catch(err => console.error(err));
         
     };
-    const handleCancel = () => {
-        console.log(bs);
+    const handleCancel = (evt) => {
+        evt.preventDefault();
         closePop();
     };
     return(
         <>
-        <div className="bs-popup popup">
-            {error ?
-                <div className="bs-error">{error.map((e, idx) =>
-                    <div key={idx}>{e}</div>)}</div>
-                :
-                <></>}
-            <div>
-                <span>Initiative: </span>
-                <input className="bs-input" id="" type="number" onChange={handleInitiativeChange} value={initiative}></input>
-            </div>
-            <div>
-                <span>Armor: </span>
-                <input className="bs-input" id="" type="number" onChange={handleArmorChange} value={armor}></input>
-            </div>
-            <div>
-                <span>Defense: </span>
-                <input className="bs-input" id="" type="textarea" onChange={handleDefenseChange} value={defense}></input>
-            </div>
-            <div>
-                <span>Inspiration: </span>
-                <input className="bs-input" id="" type="number" onChange={handleInspirationChange} value={inspiration}></input>
+        <div className="popup">
+            <form className="popup-form col-container">
+                <div className="errormessage" hidden={!error}>
+                    {error ?
+                        <div className="bs-error">{error.map((e, idx) =>
+                            <div key={idx}>{e}</div>)}</div>
+                        :
+                        <></>}
                 </div>
-            <div>
-                <span>Prof Bonus: </span>
-                <input className="bs-input" id="" type="number" onChange={handleProfBonusChange} value={profBonus}></input>
-            </div>
-            <div>
-                <span>Ability Score Saving DC: </span>
-                <input className="bs-input" id="" type="number" onChange={handleAsSaveDCChange} value={asSaveDC}></input>
-            </div>
-            <div>
-                <span>Speed: </span>
-                <input className="bs-input" id="" type="textarea" onChange={handleSpeedChange} value={speed}></input>
-            </div>
-            <button type="submit" onClick={handleSubmit}>Save</button>
-            <button onClick={handleCancel}>Cancel</button>
+                <div className="form-container">
+                    <label className="label-form">Initiative: </label>
+                    <input className="bs-input" type="number" onChange={handleInitiativeChange} value={initiative}></input>
+                </div>
+                <div className="form-container">
+                    <label className="label-form">Armor: </label>
+                    <input className="bs-input" type="number" onChange={handleArmorChange} value={armor}></input>
+                </div>
+                <div className="form-container">
+                    <label className="label-form">Defense: </label>
+                    <input className="bs-input" type="textarea" onChange={handleDefenseChange} value={defense}></input>
+                </div>
+                <div className="form-container">
+                    <label className="label-form">Inspiration: </label>
+                    <input className="bs-input" type="number" onChange={handleInspirationChange} value={inspiration}></input>
+                    </div>
+                <div className="form-container">
+                    <label className="label-form">Prof Bonus: </label>
+                    <input className="bs-input" type="number" onChange={handleProfBonusChange} value={profBonus}></input>
+                </div>
+                <div className="form-container">
+                    <label className="label-form">Ability Score Saving DC: </label>
+                    <input className="bs-input" type="number" onChange={handleAsSaveDCChange} value={asSaveDC}></input>
+                </div>
+                <div className="form-container">
+                    <label className="label-form">Speed: </label>
+                    <input className="bs-input" type="textarea" onChange={handleSpeedChange} value={speed}></input>
+                </div>
+                <div className="add-action">
+                    <button className="actionbutton" type="submit" onClick={handleSubmit}>Save</button>
+                    <button className="actionbutton" onClick={handleCancel}>Cancel</button>
+                </div>
+            </form>
         </div>
         </>
     )

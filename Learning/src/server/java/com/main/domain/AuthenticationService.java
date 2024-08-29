@@ -27,13 +27,20 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public User signup(RegisterUserDto input) {
+    public Result<User> signup(RegisterUserDto input) {
+        Result<User> result = new Result<>();
+        User search = userRepository.findByUser(input.getUsername());
+        if (search != null){
+            result.addMessage("Username already exist.", ResultType.INVALID);
+            return result;
+        }
         Role role = roleRepository.findRole(input.getRole());
         User user = new User(input.getUsername(),
         passwordEncoder.encode(input.getPassword()),
                 role);
-
-        return userRepository.addUser(user);
+        userRepository.addUser(user);
+        result.setPayload(user);
+        return result;
     }
 
     public User authenticate(LoginUserDto input) throws UsernameNotFoundException {

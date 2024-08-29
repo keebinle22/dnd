@@ -9,12 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CharInfoRepository {
     private final JdbcTemplate jdbcTemplate;
-
 
     public CharInfoRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -26,9 +27,8 @@ public class CharInfoRepository {
     }
 
     public CharInfo findCharInfoById(String userID){
-        final String sql = "select * from charInfo where userID = ?;";
-        CharInfo result = jdbcTemplate.query(sql, new CharInfoMapper(), userID).stream().findAny().orElse(null);
-        return result;
+        String sql = "select * from charInfo where userID = ?;";
+        return jdbcTemplate.query(sql, new CharInfoMapper(), userID).stream().findAny().orElse(null);
     }
 
     public CharInfo addCharInfo(CharInfo charInfo){
@@ -68,5 +68,10 @@ public class CharInfoRepository {
     public boolean deleteCharInfo(String userID){
         final String sql = "delete from charInfo where userID = ?;";
         return jdbcTemplate.update(sql, userID) > 0;
+    }
+
+    public void deleteAll(){
+        final String sql = "delete from charInfo;";
+        jdbcTemplate.update(sql);
     }
 }

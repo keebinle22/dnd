@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, useParams } from "react-router-dom";
 
-function EditCharinfo({ci, handleCI, closePopup}){
+function EditCharinfo({ ci, updateCI, closePopup}){
     const { id: userID } = useParams();
     const [classType, setClassType] = useState(ci.classType);
     const [level, setLevel] = useState(ci.level);
@@ -25,15 +25,15 @@ function EditCharinfo({ci, handleCI, closePopup}){
     const handleExpChange = (evt) => {
         setExp(evt.target.value === undefined ? exp : evt.target.value)
     }
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
-        const updateCI = {
+        const editCI = {
             userID: userID,
             classType: (classType ? classType : ci.classType),
             level: level,
             race: (race ? race : ci.race),
             background: (background ? background : ci.background), 
-            exp: exp
+            exp: (exp ? exp : ci.exp)
         };
         const start = {
             method: "PUT",
@@ -41,13 +41,13 @@ function EditCharinfo({ci, handleCI, closePopup}){
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             },
-            body: JSON.stringify(updateCI)
+            body: JSON.stringify(editCI)
         };
-        fetch(`http://localhost:8080/charinfo/update/${userID}`, start)
+        await fetch(`${process.env.REACT_APP_URL}/charinfo/update/${userID}`, start)
             .then(response => {
                 switch (response.status) {
                     case 204:
-                        handleCI(updateCI);
+                        updateCI(editCI);
                         closePopup();
                         return null;
                     case 400:
@@ -67,36 +67,41 @@ function EditCharinfo({ci, handleCI, closePopup}){
     }
     return(
         <>
-        <div className="ci-popup popup">
-            {error ? 
-                <div className="ci-error">{error.map((e,idx) =>
-                <div key={idx}>{e}</div>)}</div> 
-            :
-                <></>}
-            <Form method="post">
-                <div>
-                    <span>Class Type: </span>
-                    <input type="text" id="ci-text" name="classType" value={classType} onChange={handleClassTypeChange}/>
+        <div className="popup">
+            <form className="popup-form col-container">
+                <div className="errormessage" hidden={!error}>
+                {error ? 
+                    <div className="ci-error">{error.map((e,idx) =>
+                    <div key={idx}>{e}</div>)}</div> 
+                :
+                    <></>}
+
                 </div>
-                <div>
-                    <span>Level: </span>
-                    <input type="number" id="ci-text" name="level" value={level} onChange={handleLevelChange} />
+                {/* <div>
+                    <label className="label-form">Class Type: </label>
+                    <input type="text" className="ci-text" name="classType" value={classType} onChange={handleClassTypeChange}/>
+                </div> */}
+                {/* <div>
+                    <label className="label-form">Level: </label>
+                    <input type="number" className="ci-text" name="level" value={level} onChange={handleLevelChange} />
+                </div> */}
+                <div className="form-container">
+                    <label className="label-form">Race: </label>
+                    <input type="text" className="ci-text" name="race" value={race} onChange={handleRaceChange} />
                 </div>
-                <div>
-                    <span>Race: </span>
-                    <input type="text" id="ci-text" name="race" value={race} onChange={handleRaceChange} />
+                <div className="form-container">
+                    <label className="label-form">Background: </label>
+                    <input type="text" className="ci-text" name="background" value={background} onChange={handleBackgroundChange} />
                 </div>
-                <div>
-                    <span>Background: </span>
-                    <input type="text" id="ci-text" name="background" value={background} onChange={handleBackgroundChange} />
+                <div className="form-container">
+                    <label className="label-form">Experience: </label>
+                    <input type="number" className="ci-text" name="exp" value={exp} onChange={handleExpChange} />
                 </div>
-                <div>
-                    <span>Experience: </span>
-                    <input type="number" id="ci-text" name="exp" value={exp} onChange={handleExpChange} />
+                <div className="add-action">
+                    <button className="actionbutton" type="submit" onClick={handleSubmit}>Save</button>
+                    <button className="actionbutton" onClick={handleCancel}>Cancel</button>
                 </div>
-                <button type="submit" name="submit" value="charinfo">Save</button>
-                <button onClick={handleCancel}>Cancel</button>
-            </Form>
+            </form>
         </div>
         </>
     )

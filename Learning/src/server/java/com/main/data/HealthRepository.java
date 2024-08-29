@@ -72,8 +72,26 @@ public class HealthRepository {
                 health.getUserID()) > 0;
     }
 
+    public boolean levelUpHealth(Health health){
+        final String sql = "update health set " +
+                "maxHP = ?, " +
+                "curHP = ?, " +
+                "totalHitDice = ? " +
+                "where userID = ?;";
+        return jdbcTemplate.update(sql,
+                health.getMaxHP(),
+                health.getCurHP(),
+                health.getTotalHitDice(),
+                health.getUserID()) > 0;
+    }
+
     public boolean deleteHealth(String userID){
         final String sql = "delete from health where userID = ?;";
         return jdbcTemplate.update(sql, userID) > 0;
+    }
+
+    public void deleteAll(){
+        final String sql = "delete from health;";
+        jdbcTemplate.update(sql);
     }
 }

@@ -34,15 +34,15 @@ function AddCharInfo(){
                 <Form method="put">
                     <div className="col-container form">
                         <div className="errormessage" id="user-error" hidden={!errors}>
-                            {errors?.user && errors.user}
-                            {errors?.race && errors.race}
-                            {errors?.background && errors.background}
-                            {errors?.classType && errors.classType}
-                            {errors?.result && errors.result}
+                            <div>{errors?.user && errors.user}</div>
+                            <div>{errors?.race && errors.race}</div>
+                            <div>{errors?.background && errors.background}</div>
+                            <div>{errors?.classType && errors.classType}</div>
+                            <div>{errors?.result && errors.result}</div>
                         </div>
                         <div className="form-container">
                             <label className="label-form">Name</label>
-                            <input className="add-form" type="text" name="userID" onChange={handleNameChange} value={name}/>
+                            <input className="add-form" type="text" name="userID" onChange={handleNameChange} value={name} readOnly />
                         </div>
                         <div className="form-container">
                             <label className="label-form">Race</label>
@@ -65,22 +65,22 @@ function AddCharInfo(){
                             <label className="label-form">Class</label>
                             <select id="classType-dropdown" name="classType" defaultValue={classType} onChange={handleClassChange}>
                                 <option value="">--Select--</option>
-                                <option value="barbarian">Barbarian</option>
-                                <option value="bard">Bard</option>
-                                <option value="cleric">Cleric</option>
-                                <option value="druid">Druid</option>
-                                <option value="fighter">Fighter</option>
-                                <option value="monk">Monk</option>
-                                <option value="paladin">Paladin</option>
-                                <option value="ranger">Ranger</option>
-                                <option value="rogue">Rogue</option>
-                                <option value="sorcerer">Sorcerer</option>
-                                <option value="warlock">Warlock</option>
+                                <option value="barbarian" disabled>Barbarian</option>
+                                <option value="bard" disabled>Bard</option>
+                                <option value="cleric" disabled>Cleric</option>
+                                <option value="druid" disabled>Druid</option>
+                                <option value="fighter" disabled>Fighter</option>
+                                <option value="monk" disabled>Monk</option>
+                                <option value="paladin" disabled>Paladin</option>
+                                <option value="ranger" disabled>Ranger</option>
+                                <option value="rogue" disabled>Rogue</option>
+                                <option value="sorcerer" disabled>Sorcerer</option>
+                                <option value="warlock" disabled>Warlock</option>
                                 <option value="wizard">Wizard</option>
                             </select>
                         </div>
                         <div className="add-action">
-                            <button className="actionbutton" onClick={handlePrev}>Prev</button>
+                            {/* <button className="actionbutton" onClick={handlePrev}>Prev</button> */}
                             <button className="actionbutton" type="submit">Next</button>
                         </div>
                     </div>

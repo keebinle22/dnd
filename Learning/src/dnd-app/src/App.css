@@ -1,51 +1,18 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #1871ee;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ==================================== */
 
 body{
   background-color: rgb(236, 236, 236);
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-.popup{
+nav{
+  background-color: rgb(218, 70, 70);
   position: relative;
-    right: 0%;
+}
+#nav-btn{
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+.popup{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,7 +32,7 @@ body{
     background-color: rgb(70, 70, 70);
     border-radius: 25px;
     height: 30px;
-    width: 70px;
+    width: 90px;
     margin: 5px;
   }
   .actionbutton:hover{
@@ -117,6 +84,12 @@ body{
     border-radius: 10px;
     width: 30%;
   }
+  .popup-form {
+    background-color: rgb(185, 185, 185);
+    border: 3px solid rgb(70, 70, 70);
+    border-radius: 10px;
+    padding: 20%;
+  }
   .add-action {
     display: flex;
     margin: 10px;
@@ -147,8 +120,8 @@ button#viewall{
   font-size: 2em;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: rgb(230, 230, 230);
-  background-color: rgb(228, 43, 43);
-  border: 3px solid rgb(228, 43, 43);
+  background-color: rgb(218, 70, 70);
+  border: 3px solid rgb(218, 70, 70);
   border-radius: 25px;
   height: 100px;
   width: 200px;
@@ -156,12 +129,6 @@ button#viewall{
 button#viewall:hover {
   border: 3px solid rgb(70, 70, 70);
   background-color: rgb(238, 81, 81);
-}
-div.header{
-  display: grid;
-  grid-template-columns: 20% 40% 40%;
-  width: 80%;
-  margin: auto;
 }
 #username{
   grid-column-start: 2;
@@ -175,4 +142,20 @@ div.header{
   grid-template-rows: repeat(5, 20%);
   width: 80%;
   margin: auto;
+}
+.errorpage-container{
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+}
+.errorpage{
+    justify-self: center;
+    align-self: center;
+}
+h1.errorpage{
+  font-size: 50px;
+}
+p.errorpage{
+  font-size: 30px;
+  margin-bottom: 4%;
 }

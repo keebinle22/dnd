@@ -72,6 +72,9 @@ public class HealthService {
         return result;
     }
 
+    public void deleteAll(){
+        repo.deleteAll();
+    }
     private Result<Health> validate(Health health){
         Result<Health> result = new Result<>();
         if (health == null){

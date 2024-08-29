@@ -126,6 +126,9 @@ public class SkillService {
         return result;
     }
 
+    public void deleteAll(){
+        skillRepo.deleteAll();
+    }
     private Result<Skills> validate(Skills skills){
         Result<Skills> result = new Result<>();
 

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditBS from "./edit/EditBS";
 
 function BattleStat(){
     const [error, setError] = useState(null);
-    const bs = useLoaderData().bs;
+    const [bs, setBS] = useState(useLoaderData().bs);
     const {id: userID} = useParams();
     const ref = useRef();
     const openPopup = () => ref.current.open();
@@ -18,6 +18,7 @@ function BattleStat(){
         bs ? (
             <>
             <div className="bs-container">
+                <button id="bs-edit-popup-btn" onClick={openPopup}>Edit</button>
                 <div className="initiative-container backdrop">
                     <label>Init</label>
                     <span>
@@ -49,7 +50,7 @@ function BattleStat(){
                     <span>{bs.speed}</span>
                 </div>
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
-                    {/* <EditBS bs={bs} editBS={handleBS} closePop={closePopup} /> */}
+                    <EditBS bs={bs} editBS={setBS} closePop={closePopup} />
                 </Popup>
             </div>
             </>

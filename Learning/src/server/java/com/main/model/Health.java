@@ -14,6 +14,13 @@ public class Health {
     public Health() {
     }
 
+    public Health(int maxHP, int curHP, int totalHitDice, String userID){
+        this.maxHP = maxHP;
+        this.curHP = curHP;
+        this.totalHitDice = totalHitDice;
+        this.userID = userID;
+    }
+
     public Health(int healthID, int maxHP, int curHP, int tempHP, int totalHitDice, int curHitDice, int successDeathSaves, int failDeathSaves, String userID) {
         this.healthID = healthID;
         this.maxHP = maxHP;

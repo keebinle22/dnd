@@ -85,4 +85,8 @@ public class AbilityScoreRepository {
         final String sql = "delete from ability_score where userID = ?;";
         return jdbcTemplate.update(sql, userID) > 0;
     }
+    public void deleteAll(){
+        final String sql = "delete from ability_score ;";
+        jdbcTemplate.update(sql);
+    }
 }

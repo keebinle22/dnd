@@ -93,13 +93,41 @@ totalHitDice int not null,
 curHitDice int not null,
 successDeathSaves int not null,
 failDeathSaves int not null,
-userID varchar(25),
+userID varchar(25) not null,
 constraint fk_health_charinfo_id
 	foreign key (userID)
     references charInfo(userID)
 );
 
-insert into charInfo (userID, classType, levels, race, background, exp) value ("test", 'test', 1, "test", "test", 1);
+create table class_type(
+class_type_id int primary key auto_increment,
+class_name varchar(10) not null,
+userID varchar(25) not null
+);
+
+create table spell_slots(
+spell_slot_id int primary key auto_increment,
+spell_level varchar(10) not null,
+total_slot int not null,
+cur_slot int not null,
+class_type_id int not null,
+constraint fk_cur_spell_slots_class_type
+	foreign key (class_type_id)
+    references class_type(class_type_id)
+);
+
+insert into class_type (class_name, userID) value ("wizard", "test");
+insert into spell_slots (spell_level, total_slot, cur_slot, class_type_id) value ("1st", 2, 1, 1);
+insert into spell_slots (spell_level, total_slot, cur_slot, class_type_id) value ("2nd", 3, 2, 1);
+-- insert into spell_slots (spell_level, total_slot, cur_slot, class_type_id) value ("1st", 2, 1, 2);
+select * from class_type;
+select * from spell_slots;
+delete from spell_slots where spell_slot_id = 2;
+-- insert into class_type_cur_spell_slots (class_typeID, cur_spellID) value (1, 2);
+
+
+
+insert into charInfo (userID, classType, levels, race, background, exp) value ("test", 'wizard', 1, "test", "test", 1);
 insert into ability_score (asID, strength, dexterity, constitution, intelligence, wisdom, charisma, userID) value (1,2,2,2,2,2,2,'test');
 insert into skills (acrobatics, animalHandling, arcana, athletics, deception, hist, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleightOfHand, stealth, survival, asID) value
 (1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
@@ -110,4 +138,10 @@ insert into health (healthID, maxHP, curHP, tempHP, totalHitDice, curHitDice, su
 -- ("PLAYER", "The Pawns"),
 -- ("SUPER", "A Literal God")
 select * from dnd_role;
-select * from dnd_user inner join dnd_role on dnd_user.role_id = dnd_role.role_id where dnd_user.username = "tester"
+select * from dnd_user inner join dnd_role on dnd_user.role_id = dnd_role.role_id where dnd_user.username = "tester";
+
+select * from charInfo as ci 
+inner join ability_score as a on ci.userID = a.userID
+inner join health as h on ci.userID = h.userID
+inner join class_type as ct on ci.userID = ct.userID
+inner join spell_slots as ss on ct.class_type_id = ss.class_type_id;

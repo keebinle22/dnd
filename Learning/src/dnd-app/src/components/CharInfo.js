@@ -1,11 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditCharinfo from "./edit/EditCharInfo";
-import { url } from "../App";
 
 function Charinfo(){
-    const charInfo = useLoaderData().charInfo;
+    const [charInfo, setCharInfo] = useState(useLoaderData().charInfo);
     const { id: userID } = useParams();
 
     const ref = useRef();
@@ -15,6 +14,7 @@ function Charinfo(){
     return (
         <>
         <div className="charinfo-container">
+            <button id="ci-edit-popup-btn" onClick={openPopup}>Edit</button>
             <div className="classType">
                 <span>{charInfo.classType}</span>
                 <label>Class</label>
@@ -36,7 +36,7 @@ function Charinfo(){
                 <label>Experience</label>
             </div>
             <Popup ref={ref} closeOnDocumentClick={false} modal>
-                {/* <EditCharinfo ci={charInfo} handleCI={handleCI} closePopup={closePopup}/> */}
+                <EditCharinfo ci={charInfo} updateCI={setCharInfo} closePopup={closePopup}/>
             </Popup>
         </div>
         </>

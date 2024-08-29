@@ -2,6 +2,7 @@ package com.main.controller;
 
 import com.main.domain.AuthenticationService;
 import com.main.domain.JwtService;
+import com.main.domain.Result;
 import com.main.dtos.LoginUserDto;
 import com.main.dtos.RegisterUserDto;
 import com.main.model.User;
@@ -23,10 +24,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
-
-        return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<Object> register(@RequestBody RegisterUserDto registerUserDto) {
+        Result<User> result = authenticationService.signup(registerUserDto);
+        if (!result.isSuccess()){
+            return ErrorResponse.build(result);
+        }
+        return ResponseEntity.ok(result.getPayload());
     }
 
     @PostMapping("/login")

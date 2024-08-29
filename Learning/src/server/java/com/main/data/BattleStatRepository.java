@@ -78,4 +78,9 @@ public class BattleStatRepository {
         final String sql = "delete from battle_stat where userID = ?;";
         return jdbcTemplate.update(sql, userID) > 0;
     }
+    public void deleteAll(){
+        final String sql = "delete from battle_stat";
+        jdbcTemplate.update(sql);
+    }
+
 }

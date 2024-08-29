@@ -85,6 +85,10 @@ public class BattleStatService {
         return result;
     }
 
+    public void deleteAll(){
+        repo.deleteAll();
+    }
+
     private Result<BattleStat> validate(BattleStat bs){
         Result<BattleStat> result= new Result<>();
         if (bs == null ){

@@ -103,4 +103,8 @@ public class SkillRepository {
         final String sql = "delete from skills where asID = ?;";
         return jdbcTemplate.update(sql, asID) > 0;
     }
+    public void deleteAll(){
+        final String sql = "delete from skills;";
+        jdbcTemplate.update(sql);
+    }
 }

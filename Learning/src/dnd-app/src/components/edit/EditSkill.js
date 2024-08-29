@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-function EditSkill({as, setScore, closePopup, getSkill}){
+function EditSkill({as, setScore, closePopup}){
     const { id: userID } = useParams();
 
     const [strength, setStrength] = useState(as.strength);
@@ -36,7 +36,7 @@ function EditSkill({as, setScore, closePopup, getSkill}){
         setCharisma(evt.target.value === undefined ? charisma : evt.target.value);
     };
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
 
         const updateAScore = {
@@ -52,21 +52,24 @@ function EditSkill({as, setScore, closePopup, getSkill}){
         const start = {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             },
             body: JSON.stringify(updateAScore)
         };
-        fetch(`http://localhost:8080/api/abilityscore/user/${userID}`, start)
+        await fetch(`${process.env.REACT_APP_URL}/abilityscore/user/${userID}`, start)
             .then(response => {
                 switch (response.status) {
                     case 204:
                         setScore(updateAScore);
-                        getSkill(updateAScore.asID);
                         closePopup();
                         return null;
                     case 400:
                         response.json()
                         .then((result) => { setError(result) });
+                        return null;
+                    case 403: 
+                        setError(["Invalid Login"])
                         return null;
                     default:
                         return Promise.reject("Something went wrong here");
@@ -81,40 +84,44 @@ function EditSkill({as, setScore, closePopup, getSkill}){
     }
     return(
         <>
-        <div className="skill-popup popup">
-            {error ? 
-                <div className="skill-error">{error.map((e,i) =>
-                    <div key={i}>{e}</div>)}
-                    </div>
-                :
-                <></>}
-            <form>
-                <div>
-                    <span>Strength: </span>
-                    <input type="number" id="asText" value={strength} onChange={handleStrengthChange}></input>
+        <div className="popup">
+            <form className="popup-form col-container">
+                <div className="errormessage" hidden={!error}>
+                    {error ? 
+                        <div className="skill-error">{error.map((e,i) =>
+                            <div key={i}>{e}</div>)}
+                            </div>
+                        :
+                        <></>}
                 </div>
-                <div>
-                    <span>Dexterity: </span>
-                    <input type="number" id="asText" value={dexterity} onChange={handleDexterityChange}></input>
+                <div className="form-container">
+                    <label className="label-form">Strength: </label>
+                    <input type="number" className="as-text" value={strength} onChange={handleStrengthChange}></input>
                 </div>
-                <div>
-                    <span>Constitution: </span>
-                    <input type="number" id="asText" value={constitution} onChange={handleConstitutionChange}></input>
+                <div className="form-container">
+                    <label className="label-form">Dexterity: </label>
+                    <input type="number" className="as-text" value={dexterity} onChange={handleDexterityChange}></input>
                 </div>
-                <div>
-                    <span>Intelligence: </span>
-                    <input type="number" id="asText" value={intelligence} onChange={handleIntelligenceChange}></input>
+                <div className="form-container">
+                    <label className="label-form">Constitution: </label>
+                    <input type="number" className="as-text" value={constitution} onChange={handleConstitutionChange}></input>
                 </div>
-                <div>
-                    <span>Wisdom: </span>
-                    <input type="number" id="asText" value={wisdom} onChange={handleWisdomChange}></input>
+                <div className="form-container">
+                    <label className="label-form">Intelligence: </label>
+                    <input type="number" className="as-text" value={intelligence} onChange={handleIntelligenceChange}></input>
                 </div>
-                <div>
-                    <span>Charisma: </span>
-                    <input type="number" id="asText" value={charisma} onChange={handleCharismaChange}></input>
+                <div className="form-container">
+                    <label className="label-form">Wisdom: </label>
+                    <input type="number" className="as-text" value={wisdom} onChange={handleWisdomChange}></input>
                 </div>
-                <button onClick={handleSubmit}>Submit</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <div className="form-container">
+                    <label className="label-form">Charisma: </label>
+                    <input type="number" className="as-text" value={charisma} onChange={handleCharismaChange}></input>
+                </div>
+                <div className="add-action">
+                    <button className="actionbutton" onClick={handleSubmit}>Submit</button>
+                    <button className="actionbutton" onClick={handleCancel}>Cancel</button>
+                </div>
             </form>
         </div>
         </>

@@ -4,6 +4,7 @@ import Charinfo, { getChar } from "./CharInfo";
 import BattleStat, { getBS } from "./BattleStat";
 import Health, { getHealth } from "./Health";
 
+
 function CharSheet(){
     const navigate = useNavigate();
     const {id: userID} = useParams();
@@ -11,8 +12,9 @@ function CharSheet(){
     return(
         <>
         <div className="header">
-            <div id='actionbutton'>
-                <button onClick={() => navigate(-1)}>Return</button>
+            <div id="charsheet-btn">
+                <button className="actionbutton" onClick={() => navigate(-1)}>Return</button>
+                <button className="actionbutton" onClick={() => navigate(`/user/char/${userID}/levelup`)}>Level Up</button>
             </div>
             <h1 id="username">{userID}</h1>
             <Charinfo/>
@@ -39,6 +41,5 @@ export async function charSheetLoader({params}){
 }
 
 export async function charSheetAction({request}){
-
     return null;
 }

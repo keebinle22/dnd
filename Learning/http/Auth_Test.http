@@ -3,9 +3,9 @@ POST {{url}}/auth/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "asdf",
-    "password": "adsf",
-    "confirmation": "asdf",
+    "username": "tester",
+    "password": "test",
+    "confirmation": "test",
     "role": "DM"
 }
 ###

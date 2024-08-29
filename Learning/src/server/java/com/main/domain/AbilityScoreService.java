@@ -72,6 +72,10 @@ public class AbilityScoreService {
         return result;
     }
 
+    public void deleteAll(){
+        repo.deleteAll();
+    }
+
     private Result<AbilityScores> validate(AbilityScores as){
         Result<AbilityScores> result = new Result<>();
 

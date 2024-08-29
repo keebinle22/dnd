@@ -1,14 +1,18 @@
 import { Form, redirect, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { addBS } from "../BattleStat";
 import { getChar } from "../CharInfo";
 import { getAS } from "../GetSkill";
 import { getHealth } from "../Health";
-import { addBS } from "../BattleStat";
-import { useEffect } from "react";
 import { updateHealth } from "./AddHealth";
+import { useState } from "react";
 
 function ReviewAdd(){
     const user = useLoaderData();
     const { userID: userID} = useParams();
+    const [calcHealth, setCalcHealth] = useState(user.maxHP + modifier(user.constitution));
+    if (calcHealth < 1){
+        setCalcHealth(1);
+    }
     const navigate = useNavigate();
     const handlePrev = (evt) => {
         evt.preventDefault();
@@ -17,7 +21,7 @@ function ReviewAdd(){
     
     const handleUpdateTables = async () => {
         const newHealth = {
-            health: user.maxHP + modifier(user.constitution)
+            health: calcHealth
         }
         const healthResult = await updateHealth(userID, newHealth);
         const bs = {
@@ -55,7 +59,7 @@ function ReviewAdd(){
             </div>
             <div className="reviewhealth-container">
                 <span className="section">Health</span>
-                <span>Max HP: {user.maxHP + modifier(user.constitution)}</span>
+                    <span>Max HP: {calcHealth}</span>
             </div>
             <div className="add-action">
                 <button className="actionbutton" onClick={handlePrev}>Prev</button>

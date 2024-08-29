@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
-import EditHealth from "./edit/EditHealth";
 
 function Health(){
     const health = useLoaderData().health;

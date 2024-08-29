@@ -5,8 +5,8 @@ import EditSkill from "./edit/EditSkill";
 
 function GetSkill(){
 
-    const as = useLoaderData().as;
-    const skill = useLoaderData().skill;
+    const [as, setAS] = useState(useLoaderData().as);
+    const [skill, setSkill] = useState(useLoaderData().skill);
     const { id: userID } = useParams();
     const ref = useRef();
     const [strength, setStrength] = useState({score: as.strength, mod: Modifier(as.strength)});
@@ -17,7 +17,16 @@ function GetSkill(){
     const [charisma, setCharisma] = useState({score: as.charisma, mod: Modifier(as.charisma)});
     const [error, setError] = useState(null);
 
-    
+    const updatePage = () => {
+        setStrength({ score: as.strength, mod: Modifier(as.strength) });
+        setDexterity({ score: as.dexterity, mod: Modifier(as.dexterity) });
+        setConstitution({ score: as.constitution, mod: Modifier(as.constitution) });
+        setIntelligence({ score: as.intelligence, mod: Modifier(as.intelligence) });
+        setWisdom({ score: as.wisdom, mod: Modifier(as.wisdom) });
+        setCharisma({ score: as.charisma, mod: Modifier(as.charisma) });
+        getSkill(as.asID).then(body => setSkill(body));
+    }
+    useEffect(updatePage, [as]);
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
     const pos = "+";
@@ -29,7 +38,7 @@ function GetSkill(){
             as&&skill ? (
             <>
             <div className="left-container">
-            {/* <button onClick={openPopup}>Edit</button> */}
+                <button id="as-edit-popup-btn" onClick={openPopup}>Edit</button>
                 <div className="score-container">
                     <div className="as-container">
                         <div className="score-type">Strength</div>
@@ -225,7 +234,7 @@ function GetSkill(){
                     <label id="container-label">Skills</label>
                 </div>
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
-                    {/* <EditSkill as={as} setScore={setScore} closePopup={closePopup} getSkill={getSkill}/> */}
+                    <EditSkill as={as} setScore={setAS} closePopup={closePopup}/>
                 </Popup>
             </div>
             </>
@@ -238,7 +247,7 @@ function GetSkill(){
 }
 export default GetSkill;
 
-function Modifier(value) {
+export function Modifier(value) {
     let mod = Math.floor((value - 10) / 2);
     return mod;
 }

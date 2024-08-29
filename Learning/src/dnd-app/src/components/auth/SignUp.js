@@ -14,6 +14,7 @@ export default function SignUp(){
                             <div>{errors?.roleError && errors.roleError}</div>
                             <div>{errors?.passError && errors.passError}</div>
                             <div>{errors?.errors && errors.errors}</div>
+                            <div>{Array.isArray(errors) && errors}</div>
                     </div>
                     <div className="form-container">
                         <label className="label-form">Username</label>
@@ -94,8 +95,9 @@ async function signUp(user){
             switch (resp.status) {
                 case 200:
                     return null;
+                case 400:
+                    return resp;
                 case 401:
-                    return resp.json()
                 case 403:
                     return resp.json()
                 default:

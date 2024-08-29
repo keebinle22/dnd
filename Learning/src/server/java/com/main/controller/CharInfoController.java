@@ -2,11 +2,13 @@ package com.main.controller;
 
 import com.main.domain.*;
 import com.main.model.*;
+import com.main.model.classes.ClassType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -18,18 +20,40 @@ public class CharInfoController {
     private final HealthService healthService;
     private final SkillService skillService;
     private final BattleStatService battleStatService;
+    private final ClassTypeService classTypeService;
 
-    public CharInfoController(CharInfoService charInfoService, AbilityScoreService asService, HealthService healthService, SkillService skillService, BattleStatService battleStatService){
+    public CharInfoController(CharInfoService charInfoService, AbilityScoreService asService, HealthService healthService, SkillService skillService, BattleStatService battleStatService, ClassTypeService classTypeService){
         this.charInfoService = charInfoService;
         this.asService = asService;
         this.healthService = healthService;
         this.skillService = skillService;
         this.battleStatService = battleStatService;
+        this.classTypeService = classTypeService;
     }
+
+//    @GetMapping
+//    public void getSpells(){
+//        System.out.println(classTypeService.getSpells());
+//    }
+//
+//    @GetMapping("/class/{userID}")
+//    public void getClassByUser(@PathVariable String userID){
+//        System.out.println(classTypeService.getClassByUser(userID));
+//    }
+
     @GetMapping
     public ResponseEntity<List<CharInfo>> getCharInfo(){
         List<CharInfo> all = charInfoService.getAllCharInfo();
         return ResponseEntity.ok(all);
+    }
+
+    @GetMapping("/class/{userID}")
+    public ResponseEntity<ClassType> getClassByUserID(@PathVariable String userID){
+        ClassType ct = classTypeService.getClassByUser(userID);
+        if (ct == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(ct);
     }
 
     @GetMapping("/{userId}")
@@ -47,6 +71,7 @@ public class CharInfoController {
         Result<CharInfo> result = charInfoService.addCharInfo(charInfo);
         if (result.isSuccess()){
             if (asService.getAS(userID) == null && healthService.getHealth(userID) == null){
+                classTypeService.addClass(charInfo.getClassType(), userID);
                 asService.add(userID);
                 healthService.addHealth(userID);
                 skillService.addSkills(asService.getAS(userID));
@@ -93,6 +118,42 @@ public class CharInfoController {
             return ErrorResponse.build(asResult);
         }
         return ErrorResponse.build(skillsResult);
+    }
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<Object> deleteAll() {
+        skillService.deleteAll();
+        asService.deleteAll();
+        healthService.deleteAll();
+        battleStatService.deleteAll();
+        charInfoService.deleteAll();
+        return ResponseEntity.ok("Deleted.");
+    }
 
+    @PutMapping("/levelup/{userID}")
+    public ResponseEntity<Object> levelUp(@PathVariable String userID, @RequestBody Map<String, Object> request){
+        Map<String, Object> ci = (Map<String, Object>) request.get("ci");
+        CharInfo charInfo = new CharInfo(
+                (String) ci.get("userID"),
+                (String) ci.get("classType"),
+                (Integer) ci.get("level"),
+                (String) ci.get("race"),
+                (String) ci.get("background"),
+                (Integer) ci.get("exp")
+        );
+        Map<String, Object> h = (Map<String, Object>) request.get("health");
+        Health health = new Health(
+                (Integer) h.get("maxHP"),
+                (Integer) h.get("curHP"),
+                (Integer) h.get("totalHitDice"),
+                (String) h.get("userID")
+        );
+        if (!userID.equalsIgnoreCase(charInfo.getUserID())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        Result<?> result = charInfoService.levelUp(charInfo, health);
+        if (result.isSuccess()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
     }
 }

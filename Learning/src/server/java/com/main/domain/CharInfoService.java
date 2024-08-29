@@ -1,7 +1,12 @@
 package com.main.domain;
 
 import com.main.data.CharInfoRepository;
+import com.main.data.ClassTypeRepository;
+import com.main.data.HealthRepository;
 import com.main.model.CharInfo;
+import com.main.model.Health;
+import com.main.model.classes.ClassType;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,18 +15,23 @@ import java.util.List;
 
 @Service
 public class CharInfoService {
-    private final CharInfoRepository repo;
+    private final CharInfoRepository charInfoRepository;
+    private final ClassTypeRepository classTypeRepository;
+    private final HealthRepository healthRepository;
 
-    public CharInfoService(CharInfoRepository repo){
-        this.repo = repo;
+    public CharInfoService(CharInfoRepository charInfoRepository, ClassTypeRepository classTypeRepository, HealthRepository healthRepository){
+        this.charInfoRepository = charInfoRepository;
+        this.classTypeRepository = classTypeRepository;
+        this.healthRepository = healthRepository;
     }
 
     public List<CharInfo> getAllCharInfo(){
-        return repo.findAllCharInfo();
+        return charInfoRepository.findAllCharInfo();
     }
 
     public CharInfo getCharInfo(String userID){
-        return repo.findCharInfoById(userID);
+        return charInfoRepository.findCharInfoById(userID);
+
     }
 
     public Result<CharInfo> addCharInfo(CharInfo charInfo){
@@ -36,7 +46,7 @@ public class CharInfoService {
             result.addMessage("Username already exist.", ResultType.INVALID);
         }
         if(result.isSuccess()){
-            CharInfo savedCI = repo.addCharInfo(charInfo);
+            CharInfo savedCI = charInfoRepository.addCharInfo(charInfo);
             result.setPayload(savedCI);
         }
         return result;
@@ -47,10 +57,11 @@ public class CharInfoService {
         if (!result.isSuccess()){
             return result;
         }
-        if (!repo.updateCharInfo(charInfo)){
+        if (!charInfoRepository.updateCharInfo(charInfo)){
             String msg = String.format("%s does not exist.", charInfo.getUserID());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
+
         return result;
     }
 
@@ -60,10 +71,36 @@ public class CharInfoService {
             result.addMessage("Username is required.", ResultType.INVALID);
             return result;
         }
-        if (!repo.deleteCharInfo(userID)){
+        if (!charInfoRepository.deleteCharInfo(userID)){
             String msg = String.format("%s does not exist.", userID);
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
+        return result;
+    }
+
+    public void deleteAll(){
+        charInfoRepository.deleteAll();
+    }
+
+    public Result<?> levelUp(CharInfo ci, Health health){
+        Result<CharInfo> result = validate(ci);
+        Result<Health> result1 = validate(health);
+        if (!result.isSuccess()){
+            return result;
+        }
+        if (!result1.isSuccess()){
+            return result1;
+        }
+        CharInfo prevCI = charInfoRepository.findCharInfoById(ci.getUserID());
+        if (ci.getLevel() <= prevCI.getLevel()){
+            result.addMessage("Invalid level up.", ResultType.INVALID);
+            return result;
+        } //what to do if > 1 level?
+
+        if (!classTypeRepository.levelUp(ci) || !healthRepository.levelUpHealth(health)) {
+            result.addMessage("Error", ResultType.NOT_FOUND);
+        }
+        charInfoRepository.updateCharInfo(ci);
         return result;
     }
 
@@ -77,7 +114,7 @@ public class CharInfoService {
         if (charInfo.getUserID() == null || charInfo.getUserID().isBlank() || charInfo.getUserID().isEmpty()){
             result.addMessage("Username is required.", ResultType.INVALID);
         }
-        if (charInfo.getClassType().isBlank() || charInfo.getClassType().isEmpty()){
+        if (charInfo.getClassType().isEmpty() || charInfo.getClassType().isBlank()){
             result.addMessage("Class is required.", ResultType.INVALID);
         }
         if (charInfo.getLevel() < 0 || charInfo.getLevel() > 20){
@@ -91,6 +128,45 @@ public class CharInfoService {
         }
         if (charInfo.getExp() < 0){
             result.addMessage("Exp cannot be negative.", ResultType.INVALID);
+        }
+        return result;
+    }
+
+    private Result<Health> validate(Health health){
+        Result<Health> result = new Result<>();
+        if (health == null){
+            result.addMessage("Health cannot be null.", ResultType.INVALID);
+            return result;
+        }
+        if (health.getUserID() == null || health.getUserID().isBlank() || health.getUserID().isEmpty()){
+            result.addMessage("Username is required.", ResultType.INVALID);
+        }
+        if (health.getMaxHP() < 0){
+            result.addMessage("Max HP cannot be negative.", ResultType.INVALID);
+        }
+        if (health.getCurHP() < 0){
+            result.addMessage("Cur HP cannot be negative.", ResultType.INVALID);
+        }
+        if (health.getMaxHP() < health.getCurHP()){
+            result.addMessage("Cur HP cannot be greater than Max HP.", ResultType.INVALID);
+        }
+        if (health.getTempHP() < 0){
+            result.addMessage("Temp HP cannot be negative.", ResultType.INVALID);
+        }
+        if (health.getTotalHitDice() < 0){
+            result.addMessage("Total Hit Dice cannot be negative.", ResultType.INVALID);
+        }
+        if (health.getCurHitDice() < 0){
+            result.addMessage("Cur Hit Dice cannot be negative.", ResultType.INVALID);
+        }
+        if (health.getTotalHitDice() < health.getCurHitDice()){
+            result.addMessage("Cur Hit Dice cannot be greater than Total Hit Dice.", ResultType.INVALID);
+        }
+        if (health.getSuccessDeathSaves() < 0 || health.getSuccessDeathSaves() > 3){
+            result.addMessage("Success Death Saves is out of bounds (0-3).", ResultType.INVALID);
+        }
+        if (health.getFailDeathSaves() < 0 || health.getFailDeathSaves() > 3){
+            result.addMessage("Fail Death Saves is out of bounds (0-3).", ResultType.INVALID);
         }
         return result;
     }

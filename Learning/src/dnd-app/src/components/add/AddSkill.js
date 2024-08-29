@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, redirect, useActionData, useFetcher, useLoaderData, useNavigate } from "react-router-dom";
 import { getAS } from "../GetSkill";
 
@@ -12,7 +12,6 @@ function AddSkill(){
     const [charisma, setCharisma] = useState(as === undefined ? 0 : as.charisma);
     const navigate = useNavigate();
     const errors = useActionData();
-    const fetcher = useFetcher({key: "as"});
 
     const handleStrengthChange = (evt) => {
         setStrength(evt.target.value === undefined ? strength : evt.target.value);
@@ -58,7 +57,9 @@ function AddSkill(){
         <div>
             <Form method="post">
                 <div className="col-container form">
-                    <div className="errormessage" id="as-error" hidden={!errors}>{errors}</div>
+                    <div className="errormessage" id="as-error" hidden={!errors}>
+                        {errors && errors.map((e, i) => (<div key={i}>{e}</div>))}
+                    </div>
                     <div className="form-container">
                         <span>Rollie the dice</span>
                     </div>
@@ -102,12 +103,6 @@ export async function action({request, params}){
     const errors = [];
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    // if (updates.strength){errors.str = "Strength cannot be blank."}
-    // if (updates.dexterity) { errors.dex = "Dexterity cannot be blank." }
-    // if (updates.constitution) { errors.con = "Constitution cannot be blank." }
-    // if (updates.intelligence) { errors.int = "Intelligence cannot be blank." }
-    // if (updates.wisdom) { errors.wis = "Wisdom cannot be blank." }
-    // if (updates.charisma) { errors.cha = "Charisma cannot be blank." }
     const keys = Object.keys(updates);
     const values = Object.values(updates)
     for (let i = 0; i < values.length; i++) {

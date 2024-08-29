@@ -1,8 +1,6 @@
-import { Await, useLoaderData, useOutlet } from "react-router-dom"
+import { useOutlet } from "react-router-dom";
+import { Credit } from "../../App";
 import AuthProvider from "./AuthProvider";
-import { Suspense } from "react";
-import { Home } from "../../App";
-import ErrorPage from "../ErrorPage";
 
 export const AuthLayout = () => {
     const outlet = useOutlet();
@@ -22,6 +20,7 @@ export const AuthLayout = () => {
         // </Suspense>
         <AuthProvider>
             {outlet}
+            <Credit/>
         </AuthProvider>
     )
 }

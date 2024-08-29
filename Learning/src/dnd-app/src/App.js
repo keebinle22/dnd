@@ -1,89 +1,51 @@
+import React, { useEffect } from 'react';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, useNavigate } from 'react-router-dom';
 import './App.css';
-import './styles/Skill.css';
-import './styles/BattleStat.css';
-import './styles/CharInfo.css';
-import './styles/Health.css';
-import './styles/CharSelection.css';
-import './styles/ReviewAdd.css';
-import './styles/SignUp.css';
-import React, { useCallback, useMemo, useState } from 'react';
-import { BrowserRouter, createBrowserRouter, createRoutesFromElements, defer, Outlet, Route, RouterProvider, Routes, useNavigate} from 'react-router-dom';
-import GetSkill from './components/GetSkill';
-import CharSheet, { charSheetLoader } from './components/CharSheet';
-import GetListOfChar, { getAllCharAction, getAllCharLoader } from './components/GetListOfChar';
-import CreateChar from './components/CreateChar';
 import AddCharInfo, { action as addCharAction, loader as addCharLoader } from './components/add/AddCharInfo';
-import AddSkill, { action as addSkillAction, loader as addSKillLoader } from './components/add/AddSkill';
 import AddHealth, { action as addHealthAction, loader as addHealthLoader } from './components/add/AddHealth';
-import ErrorPage from './components/ErrorPage';
+import AddSkill, { action as addSkillAction, loader as addSKillLoader } from './components/add/AddSkill';
 import AddUser, { action as addUserAction } from './components/add/AddUser';
 import ReviewAdd, { action as reviewAction, loader as reviewLoader } from './components/add/ReviewAdd';
-import Login, { AuthContext, loginAction } from './components/auth/Login';
-import AuthProvider, { useAuth } from './components/auth/AuthProvider';
-import PrivateRoute from './components/auth/PrivateRoute';
 import { AuthLayout } from './components/auth/AuthLayout';
-import { HomeLayout } from './components/HomeLayout';
+import { useAuth } from './components/auth/AuthProvider';
+import Login from './components/auth/Login';
+import PrivateRoute from './components/auth/PrivateRoute';
 import SignUp, { signupAction } from './components/auth/SignUp';
+import CharSheet, { charSheetLoader } from './components/CharSheet';
+import CreateChar from './components/CreateChar';
+import ErrorPage from './components/ErrorPage';
+import GetListOfChar, { getAllCharAction, getAllCharLoader } from './components/GetListOfChar';
+import { HomeLayout } from './components/HomeLayout';
+import LevelUp, { levelupLoader } from './components/LevelUp';
+import './styles/BattleStat.css';
+import './styles/CharInfo.css';
+import './styles/CharSelection.css';
+import './styles/CharSheet.css';
+import './styles/Health.css';
+import './styles/ReviewAdd.css';
+import './styles/SignUp.css';
+import './styles/Skill.css';
 
 export const url = "http://localhost:8080";
 export const curToken = window.localStorage.getItem("token");
 
 function App() {
-  
-  const getUser = () => {
-    const user = window.localStorage.getItem("token");
-    if (!user){
-      return null;
-    }
-    console.log(user)
-    const init = {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${user}`,
-        "Content-Type": "application/json"
-      }
-    };
-    const acct = fetch(`${url}/users/me`, init)
-      .then(resp => {
-        console.log(resp)
-        switch (resp.status) {
-          case 200:
-            return resp.json();
-          case 403:
-            return Promise.reject();
-          default:
-            return Promise.reject("Something went wrong here");
-        }
-      })
-      // .then(body => {
-      //   console.log("GET USER")
-      //   console.log(body)
-      // })
-      .catch(err => console.error(err));
-    // if (acct.username) {
-    //   setUser(acct.username);
-    //   setRole(acct.type);
-    // }
-    //how to display error if 403 (& more)?
-    console.log(acct);
-    return acct;
-  }
-  console.log(window.localStorage.getItem("token"))
   const router = 
   createBrowserRouter(
     createRoutesFromElements(
       <>
       {/* <Route element={<AuthLayout/>} loader={() => defer({userPromise: getUser()})}> */}
-      <Route element={<AuthLayout />}>
-        <Route element={<HomeLayout/>}>
-          <Route path="/" element={<Home/>} errorElement={<ErrorPage/>}/>
+      <Route element={<AuthLayout />} errorElement={<ErrorPage/>}>
+        <Route element={<HomeLayout />}>
+          <Route path="/" element={<Home/>} />
           <Route path="signup" element={<SignUp/>} action={signupAction}/>
           <Route path="/login" id={"login"} element={<Login/>} />
         </Route>
         <Route path="/user" element={<PrivateRoute/>}>
           <Route path="home" element={<Home/>}/>
-          <Route path="charinfo" element={<GetListOfChar/>} action={getAllCharAction} loader={ getAllCharLoader} errorElement={<ErrorPage />}/>
+          <Route path="charinfo" element={<GetListOfChar/>} action={getAllCharAction} loader={ getAllCharLoader}/>
           <Route path="char/:id" element={<CharSheet/>} loader={charSheetLoader}/>
+          <Route path="char/:id/levelup" element={<LevelUp />} loader={levelupLoader}/>
           <Route path="createchar" element={<CreateChar/>}>
             <Route path="user" element={<AddUser/>} action={addUserAction}/>
             <Route path=":userID" element={<AddCharInfo/>} loader={addCharLoader} action={addCharAction}/>
@@ -135,7 +97,7 @@ export function Credit(){
     <>
     <footer>
       <div>Made by Kevin Le</div>
-      <div>v1.6.1</div>
+      <div>v1.7.0</div>
     </footer>
     </>
   )

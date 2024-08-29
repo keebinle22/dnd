@@ -1,16 +1,42 @@
 @url = http://localhost:8080/charinfo
-@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJpYXQiOjE3MjQyNzU1OTMsImV4cCI6MTcyNDI3OTE5M30.uploBme4pDsEluc_ED5-uE6NjN-byCxeJo6Z6b92Ek2u6yc98ZpDmf_J3lQzNNM-qQPEdszpOU8QPtvjCuKBUg
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJpYXQiOjE3MjQ4OTM2MzAsImV4cCI6MTcyNDg5NzIzMH0.9t_AeW1D57yUdXOacMGukJFNOFyB6MrkMUXKdPadBmvD5Vv1GY-EblltH_ClfoTqDpj8OR6AvcmR-sB9mkaYHQ
 GET {{url}} HTTP/1.1
 Authorization: Bearer {{token}}
+###
+GET {{url}}/class/test HTTP/1.1
+Authorization: Bearer {{token}}
+###
+PUT {{url}}/class/test HTTP/1.1
+Authorization: Bearer {{token}}
+###
+PUT {{url}}/levelup/test HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "ci": {"userID": "test",
+    "classType": "wizard",
+    "level": 1,
+    "race": "test",
+    "background": "test",
+    "exp": 1},
+    "health": {"healthID": 1,
+    "maxHP": 4,
+    "curHP": 1,
+    "totalHitDice": 1,
+    "userID": "test"}
+
+}
 ###
 GET {{url}}/mm HTTP/1.1
 ###
 POST {{url}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "userID": "tesdt",
-  "classType": "sorcerer",
+  "userID": "nine",
+  "classType": "wizard",
   "level": 1,
   "race": "elf",
   "background": "sage",
