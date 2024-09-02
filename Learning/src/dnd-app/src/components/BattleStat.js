@@ -1,15 +1,20 @@
-import { useRef, useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useFetcher, useLoaderData } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditBS from "./edit/EditBS";
 
 function BattleStat(){
     const [error, setError] = useState(null);
-    const [bs, setBS] = useState(useLoaderData().bs);
-    const {id: userID} = useParams();
+    const bs = useLoaderData().bs;
     const ref = useRef();
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
+    const fetcher = useFetcher({key: "charinfo"});
+    useEffect(() => {
+        if ((fetcher.state === "loading" && fetcher.data === null) || fetcher.data === "cancel") {
+            closePopup();
+        }
+    }, [fetcher.state]);
     return(
         <>
         {error ? (
@@ -50,7 +55,7 @@ function BattleStat(){
                     <span>{bs.speed}</span>
                 </div>
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
-                    <EditBS bs={bs} editBS={setBS} closePop={closePopup} />
+                    <EditBS bs={bs} />
                 </Popup>
             </div>
             </>

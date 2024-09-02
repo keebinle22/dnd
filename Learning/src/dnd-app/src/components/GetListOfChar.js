@@ -1,12 +1,18 @@
-import { useRef } from "react";
-import { Form, useLoaderData } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Form, useFetcher, useLoaderData } from "react-router-dom";
 import Popup from "reactjs-popup";
 
 function GetListOfChar(){
+    const fetcher = useFetcher({ key: "deleteall"});
     const chars = useLoaderData();
     const ref = useRef();
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
+    useEffect(() => {
+        if (fetcher.state === "loading" || fetcher.data === "cancel"){
+            closePopup();
+        }
+    }, [fetcher.state])
     return (
         <>
         <div className="col-container">
@@ -19,8 +25,9 @@ function GetListOfChar(){
                     <button className="actionbutton">Home</button>
                 </Form>
                 <button className="actionbutton" onClick={openPopup}>Delete All</button>
+                {}
                 <Popup ref={ref} closeOnDocumentClick={false} modal>
-                    <DeleteConfirmation closePopup={closePopup} />
+                    <DeleteConfirmation />
                 </Popup>
             </div>
             <table id="char-table">
@@ -103,23 +110,30 @@ export async function getAllCharLoader({request}){
 export async function getAllCharAction({request}){
     let formData = await request.formData();
     const btn = formData.get("name");
-    await deleteChar(btn);
-    return null;
+    switch (btn){
+        case "deleteall":
+            deleteAll();
+            return null;
+        case "cancel":
+            return "cancel";
+        default:
+            await deleteChar(btn);
+            return null; 
+    }
 }
 
-function DeleteConfirmation({closePopup}){
-    const handleDelete = () => {
-        deleteAll();
-        closePopup();
-    }
+function DeleteConfirmation(){
+    const fetcher = useFetcher({ key:"deleteall"});
     return(
         <>
-        <div>
-            <h2>Delete Confirmation</h2>
-            <div>Are you sure you want to delete ALL?</div>
-            <div>
-                <button className="actionbutton" onClick={closePopup}>Cancel</button>
-                <button className="actionbutton" onClick={handleDelete} name="name" value="deleteall">I am sure</button>
+        <div className="popup">
+            <div className="col-container" id="popup-deleteall">
+                <h2 id="delete-header">Delete Confirmation</h2>
+                <div id="delete-confirmation">Are you sure you want to delete ALL?</div>
+                <fetcher.Form method="DELETE" className="add-action">
+                    <button className="actionbutton" name="name" value="cancel">Cancel</button>
+                    <button className="actionbutton" name="name" value="deleteall">I am sure</button>
+                </fetcher.Form>
             </div>
         </div>
         </>

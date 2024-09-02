@@ -17,6 +17,13 @@ public class CharInfo {
         this.userID = userID;
     }
 
+    public CharInfo(String userID, String race, String background, int exp) {
+        this.userID = userID;
+        this.race = race;
+        this.background = background;
+        this.exp = exp;
+    }
+
     public CharInfo(String userID, String classType, int level, String race, String background, int exp) {
         this.userID = userID;
         this.classType = classType;

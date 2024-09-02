@@ -1,16 +1,20 @@
-import { useRef, useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useFetcher, useLoaderData, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import EditCharinfo from "./edit/EditCharInfo";
 
 function Charinfo(){
     const [charInfo, setCharInfo] = useState(useLoaderData().charInfo);
     const { id: userID } = useParams();
-
+    const fetcher = useFetcher({key: "charinfo"});
     const ref = useRef();
     const openPopup = () => ref.current.open();
     const closePopup = () => ref.current.close();
-
+    useEffect(() => {
+        if ((fetcher.state === "loading" && fetcher.data === null)|| fetcher.data === "cancel") {
+            closePopup();
+        }
+    }, [fetcher.state]);
     return (
         <>
         <div className="charinfo-container">
@@ -36,7 +40,7 @@ function Charinfo(){
                 <label>Experience</label>
             </div>
             <Popup ref={ref} closeOnDocumentClick={false} modal>
-                <EditCharinfo ci={charInfo} updateCI={setCharInfo} closePopup={closePopup}/>
+                <EditCharinfo ci={charInfo}/>
             </Popup>
         </div>
         </>

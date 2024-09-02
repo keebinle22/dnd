@@ -11,7 +11,7 @@ import { useAuth } from './components/auth/AuthProvider';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/auth/PrivateRoute';
 import SignUp, { signupAction } from './components/auth/SignUp';
-import CharSheet, { charSheetLoader } from './components/CharSheet';
+import CharSheet, { charSheetAction, charSheetLoader } from './components/CharSheet';
 import CreateChar from './components/CreateChar';
 import ErrorPage from './components/ErrorPage';
 import GetListOfChar, { getAllCharAction, getAllCharLoader } from './components/GetListOfChar';
@@ -44,7 +44,7 @@ function App() {
         <Route path="/user" element={<PrivateRoute/>}>
           <Route path="home" element={<Home/>}/>
           <Route path="charinfo" element={<GetListOfChar/>} action={getAllCharAction} loader={ getAllCharLoader}/>
-          <Route path="char/:id" element={<CharSheet/>} loader={charSheetLoader}/>
+          <Route path="char/:id" element={<CharSheet />} loader={charSheetLoader} action={charSheetAction}/>
           <Route path="char/:id/levelup" element={<LevelUp />} loader={levelupLoader}/>
           <Route path="createchar" element={<CreateChar/>}>
             <Route path="user" element={<AddUser/>} action={addUserAction}/>
@@ -97,7 +97,7 @@ export function Credit(){
     <>
     <footer>
       <div>Made by Kevin Le</div>
-      <div>v1.7.0</div>
+      <div>v1.7.1</div>
     </footer>
     </>
   )

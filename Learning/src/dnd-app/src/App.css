@@ -64,7 +64,7 @@ nav{
     text-align: center;
   }
   .errormessage{
-    width: 50%;
+    width: 80%;
     margin: 10px;
     place-self: center;
     text-align: center;
@@ -89,6 +89,12 @@ nav{
     border: 3px solid rgb(70, 70, 70);
     border-radius: 10px;
     padding: 20%;
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    margin-block: 5%;
   }
   .add-action {
     display: flex;

@@ -82,9 +82,9 @@ public class AbilityScoreService {
         if (as == null){
             result.addMessage("Ability Score cannot be null.", ResultType.INVALID);
         }
-        if (as.getAsID() < 0){
-            result.addMessage("Id is required.", ResultType.INVALID);
-        }
+//        if (as.getAsID() < 0){
+//            result.addMessage("Id is required.", ResultType.INVALID);
+//        }
         if (as.getStrength() < 0 || as.getStrength() > 20){
             result.addMessage("Strength score must be between 0 and 20.", ResultType.INVALID);
         }

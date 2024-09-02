@@ -6,6 +6,7 @@
 #char-table{
     border: 3px solid rgb(70,70,70);
     place-self: center;
+    width: 80%;
 }
 .tr-head{
     font-size: 1em;
@@ -28,4 +29,17 @@ td.action {
     width: 20%;
     font-size: 25px;
     display: flex;
+}
+#delete-header{
+    text-align: center;
+}
+#delete-confirmation{
+    padding: 0px 10px;
+    text-align: justify;
+}
+#popup-deleteall {
+    background-color: rgb(185, 185, 185);
+    border: 3px solid rgb(70, 70, 70);
+    border-radius: 10px;
+    padding: 5% 10%;
 }

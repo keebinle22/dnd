@@ -53,6 +53,11 @@ public class CharInfoService {
     }
 
     public Result<CharInfo> updateCharInfo(CharInfo charInfo){
+        if (charInfo.getLevel() == 0 && charInfo.getClassType() == null){
+            CharInfo temp = getCharInfo(charInfo.getUserID());
+            charInfo.setLevel(temp.getLevel());
+            charInfo.setClassType(temp.getClassType());
+        }
         Result<CharInfo> result = validate(charInfo);
         if (!result.isSuccess()){
             return result;
